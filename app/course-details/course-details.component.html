@@ -1,0 +1,22 @@
+<div *ngIf="course && showDetails">
+  <h4>תיאור הקורס:</h4>
+  <p>{{ course.description }}</p>
+</div>
+
+<div *ngIf="showLessons">
+  <h4>שיעורים בקורס:</h4>
+  <div *ngIf="loadingLessons">
+    טוען שיעורים...
+  </div>
+  <ul *ngIf="lessons && lessons.length > 0">
+    <li *ngFor="let lesson of lessons">
+      {{ lesson.title }}
+    </li>
+  </ul>
+  <div *ngIf="lessons && lessons.length === 0 && !loadingLessons">
+    אין שיעורים בקורס זה כרגע.
+  </div>
+  <div *ngIf="errorLessons" style="color: red;">
+    {{ errorLessons }}
+  </div>
+</div>

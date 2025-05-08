@@ -1,0 +1,43 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title class="login-title">
+        <mat-icon class="title-icon">login</mat-icon>
+        כניסה
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container">
+        <mat-form-field class="input-field">
+          <mat-label>אימייל</mat-label>
+          <input matInput type="email" id="email" formControlName="email" required>
+          <mat-error *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].dirty || userForm.controls['email'].touched)">
+            <span *ngIf="userForm.controls['email'].errors?.['required']">אימייל הוא שדה חובה.</span>
+            <span *ngIf="userForm.controls['email'].errors?.['email']">כתובת האימייל אינה תקינה.</span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="input-field">
+          <mat-label>סיסמה</mat-label>
+          <input matInput type="password" id="password" formControlName="password" required>
+          <mat-error *ngIf="userForm.controls['password'].invalid && (userForm.controls['password'].dirty || userForm.controls['password'].touched)">
+            סיסמה היא שדה חובה.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid" class="home-button">
+            התחבר
+          </button>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-footer>
+      <p class="home-footer">© כל הזכויות שמורות</p>
+    </mat-card-footer>
+  </mat-card>
+</div>

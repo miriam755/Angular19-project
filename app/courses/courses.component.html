@@ -1,0 +1,56 @@
+<h2>רשימת קורסים</h2>
+
+<div *ngIf="loadingCourses">
+  <mat-spinner></mat-spinner>
+  טוען קורסים...
+</div>
+
+<div *ngIf="errorCourses" style="color: red;">
+  {{ errorCourses }}
+</div>
+
+<mat-card *ngFor="let course of courses" style="margin-bottom: 10px;">
+  <mat-card-content style="display: flex; align-items: center; justify-content: space-between;">
+    <div>
+      <h4 style="margin-top: 0;">{{ course.title }}</h4>
+      <button mat-button (click)="loadCourseDetails(course.id)" style="margin-right: 5px;">
+        פרטי הקורס
+      </button>
+      <button mat-button (click)="loadCourseLessons(course.id)">
+        רשימת שיעורים
+      </button>
+      <ng-container *ngIf="getStudentId()">
+        <button
+          mat-raised-button
+          color="warn"
+          *ngIf="isUserEnrolled(course.id) | async"
+          (click)="leaveCourse(course.id)"
+          style="margin-left: 10px;"
+        >
+          עזוב את הקורס
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="!(isUserEnrolled(course.id) | async)"
+          (click)="joinCourse(course.id)"
+          style="margin-left: 10px;"
+        >
+          הצטרפות לקורס
+        </button>
+      </ng-container>
+    </div>
+    <app-course-details
+      [course]="course"
+      [lessons]="courseDisplayStates[course.id].lessons ?? []"
+      [showDetails]="courseDisplayStates[course.id].showDetails || false"
+      [showLessons]="courseDisplayStates[course.id].showLessons || false"
+      [loadingLessons]="courseDisplayStates[course.id].loadingLessons || false"
+      [errorLessons]="courseDisplayStates[course.id].errorLessons || ''"
+    ></app-course-details>
+  </mat-card-content>
+</mat-card>
+
+<ul *ngIf="!loadingCourses && !errorCourses && courses.length === 0">
+  <li>אין קורסים זמינים כרגע.</li>
+</ul>
