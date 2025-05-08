@@ -1,59 +1,67 @@
 <div class="register-container">
   <mat-card class="register-card">
-    <mat-card-header>
-      <mat-card-title class="register-title">
-        <mat-icon class="title-icon">person_add</mat-icon>
-        הרשמה
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form-container">
-        <mat-form-field class="input-field">
-          <mat-label>שם משתמש</mat-label>
-          <input matInput type="text" id="name" formControlName="name" required>
-          <mat-error *ngIf="formControls['name'].invalid && (formControls['name'].dirty || formControls['name'].touched)">
-            שם משתמש הוא שדה חובה.
-          </mat-error>
-        </mat-form-field>
+      <mat-card-header>
+          <mat-card-title class="register-title">
+              <mat-icon class="title-icon">person_add</mat-icon>
+              הרשמה
+          </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form-container" *ngIf="!registrationSuccess">
+              <mat-form-field class="input-field">
+                  <mat-label>שם משתמש</mat-label>
+                  <input matInput type="text" id="name" formControlName="name" required>
+                  <mat-error *ngIf="formControls['name'].invalid && (formControls['name'].dirty || formControls['name'].touched)">
+                      שם משתמש הוא שדה חובה.
+                  </mat-error>
+              </mat-form-field>
 
-        <mat-form-field class="input-field">
-          <mat-label>אימייל</mat-label>
-          <input matInput type="email" id="email" formControlName="email" required>
-          <mat-error *ngIf="formControls['email'].invalid && (formControls['email'].dirty || formControls['email'].touched)">
-            <span *ngIf="formControls['email'].errors?.['required']">אימייל הוא שדה חובה.</span>
-            <span *ngIf="formControls['email'].errors?.['email']">כתובת האימייל אינה תקינה.</span>
-          </mat-error>
-        </mat-form-field>
+              <mat-form-field class="input-field">
+                  <mat-label>אימייל</mat-label>
+                  <input matInput type="email" id="email" formControlName="email" required>
+                  <mat-error *ngIf="formControls['email'].invalid && (formControls['email'].dirty || formControls['email'].touched)">
+                      <span *ngIf="formControls['email'].errors?.['required']">אימייל הוא שדה חובה.</span>
+                      <span *ngIf="formControls['email'].errors?.['email']">כתובת האימייל אינה תקינה.</span>
+                  </mat-error>
+              </mat-form-field>
 
-        <mat-form-field class="input-field">
-          <mat-label>סיסמה</mat-label>
-          <input matInput type="password" id="password" formControlName="password" required>
-          <mat-error *ngIf="formControls['password'].invalid && (formControls['password'].dirty || formControls['password'].touched)">
-            סיסמה היא שדה חובה.
-          </mat-error>
-        </mat-form-field>
+              <mat-form-field class="input-field">
+                  <mat-label>סיסמה</mat-label>
+                  <input matInput type="password" id="password" formControlName="password" required>
+                  <mat-error *ngIf="formControls['password'].invalid && (formControls['password'].dirty || formControls['password'].touched)">
+                      סיסמה היא שדה חובה.
+                  </mat-error>
+              </mat-form-field>
 
-        <mat-form-field class="input-field">
-          <mat-label>תפקיד</mat-label>
-          <input matInput type="text" id="role" formControlName="role" required>
-          <mat-error *ngIf="formControls['role'].invalid && (formControls['role'].dirty || formControls['role'].touched)">
-            תפקיד הוא שדה חובה.
-          </mat-error>
-        </mat-form-field>
+              <mat-form-field class="input-field">
+                  <mat-label>תפקיד</mat-label>
+                  <input matInput type="text" id="role" formControlName="role" required>
+                  <mat-error *ngIf="formControls['role'].invalid && (formControls['role'].dirty || formControls['role'].touched)">
+                      תפקיד הוא שדה חובה.
+                  </mat-error>
+              </mat-form-field>
 
-        <div class="button-container">
-          <button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid" class="home-button">
-            הרשמה
-          </button>
-        </div>
+              <div class="button-container">
+                  <button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid" class="home-button">
+                      הרשמה
+                  </button>
+              </div>
 
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
-        </div>
-      </form>
-    </mat-card-content>
-    <mat-card-footer>
-      <p class="home-footer">© כל הזכויות שמורות</p>
-    </mat-card-footer>
+              <div *ngIf="errorMessage" class="error-message">
+                  {{ errorMessage }}
+              </div>
+          </form>
+
+          <div *ngIf="registrationSuccess" class="success-message">
+              נרשמת בהצלחה!
+              <div class="button-container">
+                  <button mat-raised-button color="primary" routerLink="/login" class="home-button">
+                    כניסה
+                       <!-- <mat-icon>login</mat-icon> -->
+                     
+                  </button>
+              </div>
+          </div>
+      </mat-card-content>
   </mat-card>
 </div>

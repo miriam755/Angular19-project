@@ -31,6 +31,11 @@ export class CourseService {
     return this.http.get<Course>(url, { headers: this.getAuthHeaders() }); // בקשת GET לקורס בודד
   }
 
+  getCoursesByStudentId(studentId:number){
+    const url = `${this.apiUrl}/student/${studentId}`;
+    return this.http.get<Course[]>(url, { headers: this.getAuthHeaders() });
+  }
+
   getLessonsByCourseId(courseId: number): Observable<Lesson[]> {
     const url = `${this.apiUrl}/${courseId}/lessons`;
     return this.http.get<Lesson[]>(url, { headers: this.getAuthHeaders() });
@@ -48,7 +53,7 @@ export class CourseService {
   }
   isUserEnrolled(courseId: number, studentId: number): Observable<boolean> {
     const headers = this.getAuthHeaders();
-    const url = `${this.apiUrl}/student/:${studentId}`;
+    const url = `${this.apiUrl}/student/${studentId}`;
     return this.http.get<Course[]>(url, { headers }).pipe(
       map((courses:Course[]) => {
         return courses.some((course:Course) => course.id === courseId);

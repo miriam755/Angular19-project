@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); */
 
 .home-container {
   display: flex;
@@ -9,9 +7,16 @@
   height: 100vh;
   background-color: #f0f0f0;
   direction: rtl;
+  margin-top: 20px; /* התאם מרווח אם צריך */
 }
 
 .home-card {
+  align-items: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif ;
+
+  font-size: 22px;
+  font-weight: bold;
+  color: #212121;
   width: 90%;
   max-width: 800px;
   text-align: center;
@@ -20,11 +25,9 @@
   background-color: #ffffff;
   padding: 20px;
 }
-
-.home-card-header{
-    padding-bottom: 0;
+.home-footer{
+  font-size: 15px;
 }
-
 .home-title {
   font-size: 24px;
   font-weight: bold;
@@ -34,105 +37,13 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: 'Roboto', sans-serif;
-}
-
-
-.home-text {
-  font-size: 16px;
-  color: #555555;
-  margin-bottom: 24px;
-  text-align: center;
-  line-height: 1.5;
-  font-family: 'Roboto', sans-serif;
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  width: 100%;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.input-field {
-  width: 100%;
-  margin-bottom: 16px;
-  font-family: 'Roboto', sans-serif;
-}
-
-.mat-form-field-label {
-  color: #777777;
-}
-
-.mat-input-element {
-  color: #212121;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 25px;
-  width: 100%;
-  
-}
-
-.home-button {
-  padding: 12px 32px ;
-  font-size: 18px;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-family: 'Roboto', sans-serif;
-  width: auto;
-  min-width: 150px;
-  margin: 10px;
-}
-
-.home-button:hover {
-  background-color: #0056b3;
+  font-family:Verdana, Geneva, Tahoma, sans-serif ;
 }
 
 .title-icon {
-  font-size: 28px;
+  font-size: 30px;
   color: #212121;
+ 
+
 }
 
-.button-row {
-  display: flex;
-  gap: 10px; /* מרחק בין הכפתורים */
-  margin-top: 20px;
-  margin-bottom: 20px; /* מרווח בין שורת הכפתורים לקונטיינר הראשי */
-  justify-content: center; /* מרכוז הכפתורים בשורה */
-}
-
-.button-row button {
-
-color: #ffffff;
-  }
-
-
-/* המשך הסגנונות הקיימים עבור home-container וכו' */
-.home-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px; /* התאם מרווח אם צריך */
-}
-
-.home-card {
-  width: 400px; /* או גודל אחר שמתאים לך */
-  text-align: center;
- align-items: center;
-}
-
-.home-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-} 

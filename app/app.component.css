@@ -1,0 +1,58 @@
+.button-container {
+    display: flex;
+    justify-content: space-between; /* מפזר את הקבוצות לשני קצוות */
+    align-items: center; /* מרכז אנכית אם צריך */
+    padding: 20px; /* מוסיף קצת ריווח מסביב */
+  }
+  
+  .left-buttons {
+    display: flex;
+    gap: 10px; /* מרחק בין כפתורי שמאל */
+  }
+  
+  .right-buttons {
+    display: flex;
+    gap: 10px; /* מרחק בין כפתורי ימין */
+  }
+  
+  /* עיצוב כפתורי כניסה והרשמה (צד שמאל) */
+  .left-buttons button {
+    font-size: 1em;
+    padding: 10px 15px;
+  }
+  
+  .left-buttons button:first-child { /* כפתור כניסה */
+    background-color: #1976d2; /* צבע primary */
+    color: white;
+  }
+  
+  .left-buttons button:last-child { /* כפתור הרשמה */
+    background-color: #1976d2; /* צבע accent */
+    color: white;
+  }
+  
+  .left-buttons button mat-icon {
+    margin-inline-end: 5px; /* ריווח בין האייקון לטקסט */
+  }
+  
+  /* עיצוב שאר הכפתורים (צד ימין) - עיצוב מעט שונה */
+  .right-buttons button {
+    font-size: 0.9em;
+    padding: 8px 12px;
+    background-color: #673ab7; /* צבע secondary */
+    color: white;
+    border-radius: 5px; /* פינות מעוגלות קלות */
+  }
+  
+  .right-buttons button:hover {
+    background-color: #512da8; /* צבע כהה יותר במעבר עכבר */
+  }
+  
+  .right-buttons button mat-icon {
+    margin-inline-start: 5px; /* ריווח בין האייקון לטקסט (בצד ימין) */
+  }
+  
+  .content-outlet {
+    /* סגנונות קיימים אם יש */
+    padding: 20px; /* הוספת ריווח מסביב לתוכן הראוטר */
+  }
