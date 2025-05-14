@@ -1,0 +1,33 @@
+.welcome-container {
+    position: fixed; /* מקבע את האלמנט ביחס לחלון הדפדפן */
+    top: 50%; /* ממקם את הקצה העליון של האלמנט במרכז האנכי של המסך */
+    right: 0; /* ממקם את הקצה הימני של האלמנט בקצה הימני של המסך */
+    left: auto; /* מאפשר ל-right לשלוט במיקום האופקי */
+    transform: translateX(100%) translateY(-50%); /* מתחיל מחוץ למסך מימין וממרכז אנכית */
+    background-color: rgba(0, 0, 0, 0.8); /* רקע שחור שקוף */
+    color: white; /* טקסט לבן */
+    padding: 40px 80px; /* ריווח פנימי גדול */
+    border-radius: 10px; /* פינות מעוגלות */
+    z-index: 9999; /* מבטיח שהאלמנט יהיה מעל כל התוכן האחר */
+    opacity: 0; /* האלמנט מוסתר בתחילה */
+    transition: opacity 1s ease-in-out, transform 0.8s ease-out; /* מעבר הדרגתי עבור שקיפות ומיקום */
+}
+
+.welcome-container.show {
+    opacity: 1; /* הופך את האלמנט לגלוי */
+    transform: translateX(-50%) translateY(-50%); /* מזיז את האלמנט למרכז (או קצת שמאלה) */
+}
+
+.welcome-container.hide {
+    opacity: 0; /* הופך את האלמנט למוסתר */
+    transform: translateX(-150%) translateY(-50%); /* מזיז את האלמנט הרחק מהמסך משמאל */
+}
+
+.welcome-text {
+    margin: 0; /* מסיר שוליים ברירת מחדל */
+    font-size: 3em; /* גודל גופן גדול */
+    font-weight: bold; /* טקסט מודגש */
+    direction: rtl; /* כיוון טקסט מימין לשמאל */
+    white-space: nowrap; /* מונע מעבר לשורה חדשה */
+    font-family: Verdana, Geneva, Tahoma, sans-serif; /* פונט ספציפי */
+}

@@ -1,0 +1,24 @@
+<div class="container mt-5">
+  <h1>ניהול קורסים</h1>
+
+  <div class="mb-3">
+    <button mat-raised-button color="primary" (click)="onAddCourse()">הוסף קורס חדש</button>
+  </div>
+
+  <app-course-form
+  @if (isAddingNewCourse || selectedCourseId !=null)
+    [course]="selectedCourse"
+    (formSubmit)="onFormSubmit($event)"
+    (formCancel)="onFormCancel()"
+  ></app-course-form>
+
+  <app-course-list
+    [courses]="courses"
+    (edit)="onEditCourse($event)"
+    (delete)="onDeleteCourse($event)"
+  ></app-course-list>
+@if(loading){
+  <div class="alert alert-info">טוען קורסים...</div>}
+  @if(error){
+  <div class="alert alert-danger">{{ error }}</div>}
+</div>

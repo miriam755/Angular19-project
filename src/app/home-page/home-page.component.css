@@ -1,0 +1,49 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); */
+
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  direction: rtl;
+  margin-top: 20px; /* התאם מרווח אם צריך */
+}
+
+.home-card {
+  align-items: center;
+  font-family:Verdana, Geneva, Tahoma, sans-serif ;
+
+  font-size: 22px;
+  font-weight: bold;
+  color: #212121;
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #ffffff;
+  padding: 20px;
+}
+.home-footer{
+  font-size: 15px;
+}
+.home-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #212121;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif ;
+}
+
+.title-icon {
+  font-size: 30px;
+  color: #212121;
+ 
+
+}
+

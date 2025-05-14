@@ -1,0 +1,59 @@
+<div class="login-container">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title class="login-title">
+                <mat-icon class="title-icon">login</mat-icon>
+                כניסה
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            @if (!loginSuccess) {
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container">
+                <mat-form-field class="input-field">
+                    <mat-label>אימייל</mat-label>
+                    <input matInput type="email" id="email" formControlName="email" required>
+                    @if (userForm.controls['email'].invalid && (userForm.controls['email'].dirty ||
+                    userForm.controls['email'].touched)) {
+                    <mat-error>
+                        @if (userForm.controls['email'].errors?.['required']) {
+                        <span>אימייל הוא שדה חובה.</span>}
+                        @if (userForm.controls['email'].errors?.['email']) {
+                        <span>כתובת האימייל אינה תקינה.</span>}
+                    </mat-error>}
+                </mat-form-field>
+
+                <mat-form-field class="input-field">
+                    <mat-label>סיסמה</mat-label>
+                    <input matInput type="password" id="password" formControlName="password" required>
+                    @if(userForm.controls['password'].invalid &&
+                    (userForm.controls['password'].dirty || userForm.controls['password'].touched)){
+                    <mat-error>
+                        סיסמה היא שדה חובה.
+                    </mat-error>}
+                </mat-form-field>
+
+                <div class="button-container">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid"
+                        class="home-button">
+                        התחבר
+                    </button>
+                </div>
+                @if (errorMessage) {
+                <div class="error-message">
+                    {{ errorMessage }}
+                </div>}
+            </form>}
+            <!-- @if (loginSuccess) {
+            <div class="success-message">
+                שלום, {{ loggedInUserName }}!
+                <div class="button-container">
+                    <button mat-raised-button color="accent" (click)="navigateToCourses()" class="courses-button">
+                        <mat-icon>library_books</mat-icon> המשך לקורסים
+                    </button>
+                </div>
+            </div>} -->
+        </mat-card-content>
+        <mat-card-footer>
+        </mat-card-footer>
+    </mat-card>
+</div>
