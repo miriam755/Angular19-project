@@ -2,57 +2,41 @@
     <mat-card>
         <mat-card-title>הקורסים שלי</mat-card-title>
         <mat-card-content>
-            @if (loadingCourses) {
-            <div>
-                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-                טוען את הקורסים שלך...
-            </div>}
+     
             @if (errorCourses) {
             <div class="alert alert-danger">{{ errorCourses }}</div>}
             @if (myCourses && myCourses.length > 0) {
             <mat-list>
                 @for (course of myCourses; track course.id) {
-                <mat-list-item>
+                <!-- <mat-list-item> -->
                     <mat-icon matListItemIcon>library_books</mat-icon>
                     <h3 matListItemTitle>{{ course.title }}</h3>
-                    <p matListItemLine>{{ course.description }}</p>
-                    <div class="actions">
-                        <button mat-raised-button color="primary" (click)="loadCourseDetails(course.id)">
-                            {{
-                            courseDisplayStates[course.id].showDetails
-                            ? 'הסתר פרטים'
-                            : 'הצג פרטים'
-                            }}
-                        </button>
-                        <button mat-raised-button color="accent" (click)="loadCourseLessons(course.id)">
-                            {{
-                            courseDisplayStates[course.id].showLessons
-                            ? 'הסתר שיעורים'
-                            : 'הצג שיעורים'
-                            }}
-                        </button>
-                        @if (getStudentId() !== null && !(isUserEnrolled(course.id) | async)) {
-                        <button mat-raised-button color="secondary" 
-                         (click)="joinCourse(course.id)">
-                            הצטרף לקורס
-                        </button>}
-                        @if (isUserEnrolled(course.id) | async) {
-                        <button mat-raised-button color="warn" (click)="leaveCourse(course.id)">
-                            עזוב קורס
-                        </button>}
-                    </div>
-                    <app-course-details [course]="course" [showDetails]="courseDisplayStates[course.id].showDetails"
-                        [lessons]="courseDisplayStates[course.id].lessons"
-                        [showLessons]="courseDisplayStates[course.id].showLessons"
-                        [loadingLessons]="courseDisplayStates[course.id].loadingLessons"
-                        [errorLessons]="courseDisplayStates[course.id].errorLessons"></app-course-details>
-                </mat-list-item>}
+                    <!-- <p matListItemLine>{{ course.description }}</p>
+         -->
+                        <app-course-details
+                        [course]="course"
+                        [studentId]="getStudentId()"
+                     
+                        (leave)="leaveCourse(course.id)"
+                        (loadLessons)="loadCourseLessons(course.id)"
+                        [lessons]="courseDisplayStates[course.id]?.lessons ?? null"
+                        [loadingLessons]="courseDisplayStates[course.id]?.loadingLessons ?? false"
+                        [errorLessons]="courseDisplayStates[course.id]?.errorLessons"
+                        
+                      ></app-course-details>
+                    }
             </mat-list>}
             @if (myCourses && myCourses.length === 0 && !loadingCourses && !errorCourses) {
             <div >
                 עדיין לא נרשמת לקורסים.
             </div>}
+                   @if (loadingCourses) {
+            <div>
+               
+                טוען את הקורסים שלך...
+            </div>}
         </mat-card-content>
     </mat-card>
 
 </div>
+<!-- (join)="joinCourse(course.id)" -->

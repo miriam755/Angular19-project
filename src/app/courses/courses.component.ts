@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CourseDetailsComponent } from '../course-details/course-details.component';
 import { AsyncPipe } from '@angular/common';
-import { Lesson} from '../models/lesson.model ';
+import { Lesson } from '../models/lesson.model ';
 
 // ייבוא מודולים של Angular Material שבהם נשתמש
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -17,14 +17,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar'; // אם תרצה להציג הודעות
-import { log } from 'console';
 
 interface CourseDisplayState {
-  showDetails: boolean;
-  showLessons: boolean;
   lessons: Lesson[] | null; // מאפשר null
   loadingLessons: boolean;
-  errorLessons: string | null|undefined; // מאפשר null
+  errorLessons: string | null | undefined; // מאפשר null
 }
 
 @Component({
@@ -33,7 +30,7 @@ interface CourseDisplayState {
   imports: [
     CommonModule,
     FormsModule,
-    // HttpClientModule,
+    HttpClientModule,
     CourseDetailsComponent,
     // הוספת מודולים של Angular Material לייבוא
     MatProgressSpinnerModule,
@@ -42,7 +39,7 @@ interface CourseDisplayState {
     MatListModule,
     MatIconModule,
     MatSnackBarModule
-],
+  ],
   templateUrl: './courses.component.html',
   styleUrl: './courses.component.css'
 })
@@ -56,15 +53,10 @@ export class CoursesComponent implements OnInit {
   constructor(private courseService: CourseService, private router: Router, private snackBar: MatSnackBarModule) { }
 
   ngOnInit(): void {
-    console.log(1);
-    
     this.loadCourses();
-     console.log(2);
-     
-
   }
 
-  public getStudentId(): number | null {
+  public getStudentId(): number {
     if (typeof window !== 'undefined' && window.sessionStorage) {
       const token = sessionStorage.getItem('authToken');
       if (token) {
@@ -73,47 +65,31 @@ export class CoursesComponent implements OnInit {
           return payload?.userId;
         } catch (error) {
           console.error('שגיאה בפענוח הטוקן:', error);
-          return null;
+          return -1;
         }
       }
     }
-    return null;
+    //TODO NAVIGATR
+    return -1;
   }
 
   loadCourses(): void {
-    console.log(3);
-    
     this.loadingCourses = true;
-    console.log(4);
-    
     this.errorCourses = '';
-console.log(5);
-
-console.log('Change Detection רץ');
     this.courseService.getAllCourses().subscribe({
       next: (courses) => {
-        console.log('Change Detection רץ');
-        console.log('קורסים שהתקבלו:', courses);
-        this.courses.length=0;
-        courses.forEach(course=>this.courses.push(course))
-        console.log('this.courses לאחר עדכון:', this.courses);
-        console.log(this.courses[1]);
-        
+        this.courses = courses;
         this.courses.forEach(course => {
-        
-          console.log(course.id);
-          
           this.courseDisplayStates[course.id] = {
-            showDetails: false,
-            showLessons: false,
             lessons: null, // אתחול ל-null
             loadingLessons: false,
             errorLessons: null // אתחול ל-null
           };
+     
+          
         });
+        this.getCoursesByStudentId(this.getStudentId())
         this.loadingCourses = false;
-        console.log(this.loadingCourses);
-        
       },
       error: (err) => {
         this.errorCourses = 'אירעה שגיאה בטעינת הקורסים';
@@ -123,47 +99,17 @@ console.log('Change Detection רץ');
     });
   }
 
-  loadCourseDetails(courseId: number): void {
-    this.courseDisplayStates[courseId].showDetails = !this.courseDisplayStates[courseId].showDetails;
-    this.courseDisplayStates[courseId].showLessons = false;
-  }
-
-  loadCourseLessons(courseId: number): void {
-    const state = this.courseDisplayStates[courseId];
-    state.showLessons = !state.showLessons;
-    state.showDetails = false;
-    if (state.showLessons && !state.lessons && !state.loadingLessons) { // בדיקה אם lessons הוא null
-      state.loadingLessons = true;
-      state.errorLessons = null;
-      this.courseService.getLessonsByCourseId(courseId).subscribe({
-        next: (lessons) => {
-          state.lessons = lessons;
-          state.loadingLessons = false;
-        },
-        error: (err) => {
-          state.errorLessons = 'אירעה שגיאה בטעינת רשימת השיעורים';
-          console.error('שגיאה בטעינת רשימת השיעורים:', err);
-          state.loadingLessons = false;
-        }
-      });
-    }
-  }
-
   joinCourse(courseId: number): void {
     const studentId = this.getStudentId();
     if (studentId !== null) {
       this.courseService.enrollInCourse(courseId, studentId).subscribe({
         next: (response) => {
           console.log('הצטרפות לקורס הצליחה:', response);
-          this.loadCourses();
-          // דוגמה להצגת הודעה עם MatSnackBar
-          // this.snackBar.open('הוצטרפת לקורס בהצלחה!', 'סגור', { duration: 3000 });
+          this.loadCourses(); // רענון רשימת הקורסים כדי לעדכן את מצב ההרשמה
         },
         error: (err) => {
           console.error('שגיאה בהצטרפות לקורס:', err);
           this.errorCourses = 'אירעה שגיאה בהצטרפות לקורס';
-          // דוגמה להצגת הודעת שגיאה עם MatSnackBar
-          // this.snackBar.open('אירעה שגיאה בהצטרפות לקורס.', 'סגור', { duration: 5000 });
         }
       });
     }
@@ -175,26 +121,48 @@ console.log('Change Detection רץ');
       this.courseService.unenrollFromCourse(courseId, studentId).subscribe({
         next: (response) => {
           console.log('עזיבת הקורס הצליחה:', response);
-          this.loadCourses();
-          // דוגמה להצגת הודעה עם MatSnackBar
-          // this.snackBar.open('עזבת את הקורס בהצלחה.', 'סגור', { duration: 3000 });
+          this.loadCourses(); // רענון רשימת הקורסים כדי לעדכן את מצב ההרשמה
         },
         error: (err) => {
           console.error('שגיאה בעזיבת הקורס:', err);
           this.errorCourses = 'אירעה שגיאה בעזיבת הקורס';
-          // דוגמה להצגת הודעת שגיאה עם MatSnackBar
-          // this.snackBar.open('אירעה שגיאה בעזיבת הקורס.', 'סגור', { duration: 5000 });
         }
       });
     }
   }
 
-  isUserEnrolled(courseId: number): Observable<boolean>  {
+  isUserEnrolled(courseId: number): Observable<boolean> {
     const studentId = this.getStudentId();
     if (studentId !== null) {
       return this.courseService.isUserEnrolled(courseId, studentId);
     } else {
       return of(false);
     }
+  }
+
+  loadCourseLessons(courseId: number): Observable<Lesson[]> {
+    const state = this.courseDisplayStates[courseId];
+    if (!state.lessons && !state.loadingLessons) {
+      state.loadingLessons = true;
+      state.errorLessons = null;
+      return this.courseService.getLessonsByCourseId(courseId);
+    } else if (state.lessons) {
+      return of(state.lessons);
+    } else {
+      return of([]); // או Observable.empty(), תלוי בהתנהגות הרצויה
+    }
+  }
+  getCoursesByStudentId(studentId: number) {
+    this.courseService.getCoursesByStudentId(studentId).subscribe(
+      data => data.forEach(f => {
+        let current = this.courses.find(c => c.id == f.id)
+        if (current != null) {
+  
+         this.courses =  this.courses.map(obj => obj.id === current?.id ? { ...obj, isEnrolled:true } : obj );
+        
+          }
+      }
+      )
+    )
   }
 }

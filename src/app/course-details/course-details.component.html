@@ -1,32 +1,66 @@
-@if(course && showDetails){
-<div>
-  <h4>תיאור הקורס:</h4>
-  <p>{{ course.description }}</p>
-</div>
+@if (course) {
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="toggleDetails()">
+      {{ showDetails ? 'הסתר פרטים' : 'פרטי הקורס' }}
+    </button>
+    <button mat-raised-button color="accent" (click)="toggleLessons()">
+      {{ showLessons ? 'הסתר שיעורים' : 'רשימת שיעורים' }}
+    </button>
+    @if (!course.isEnrolled) {
+     
+        <button mat-raised-button color="secondary" (click)="onJoin()">
+          הצטרף לקורס
+        </button>
+      }
+      @else{
+        <button mat-raised-button color="warn" (click)="onLeave()">
+          עזוב קורס
+        </button>
+      }
+    
+  </div>
+
+  @if (showDetails) {
+    <div class="details">
+      <h4>תיאור הקורס:</h4>
+      <p>{{ course.description }}</p>
+    </div>
+  }
+
+  @if (showLessons) {
+    <div class="lessons">
+      <h4>שיעורים בקורס:</h4>
+      @if (loadingLessons) {
+        <div>
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+          טוען שיעורים...
+        </div>
+      }
+
+      @if (lessons && lessons.length > 0) {
+        <mat-list>
+          @for (lesson of lessons; track lesson.id) {
+            <mat-list-item>
+              <mat-icon matListItemIcon>book</mat-icon>
+              <h5 matListItemTitle>{{ lesson.title }}</h5>
+            </mat-list-item>
+          }
+        </mat-list>
+      }
+      @if (lessons && lessons.length === 0 && !loadingLessons) {
+        <div>
+          אין שיעורים בקורס זה כרגע.
+        </div>
+      }
+      @if (errorLessons) {
+        <div class="error-message">
+          {{ errorLessons }}
+        </div>
+      }
+    </div>
+  }
+} @else {
+  <div>
+    אין מידע על הקורס.
+  </div>
 }
-
-@if(showLessons)
-{<div>
-  <h4>שיעורים בקורס:</h4>
-  @if(loadingLessons){
-  <div>
-    טוען שיעורים...
-  </div>}
-
-  @if(lessons && lessons.length > 0){
-  <ul >
-    @for(lesson of lessons; track lesson.id
-    ){
-    <li>
-      {{ lesson.title }}
-    </li>}
-  </ul>}
-  @if (lessons && lessons.length === 0 && !loadingLessons) {
-  <div>
-    אין שיעורים בקורס זה כרגע.
-  </div>}
-  @if(errorLessons){
-  <div style="color: red;">
-    {{ errorLessons }}
-  </div>}
-</div>}

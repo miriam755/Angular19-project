@@ -15,9 +15,9 @@ import { CourseDetailsComponent } from '../course-details/course-details.compone
   templateUrl: './my-courses.component.html',
   styleUrls: ['./my-courses.component.css'],
   standalone: true,
-  imports: [CommonModule,MatCardModule, MatListModule, MatIconModule, MatButtonModule, AsyncPipe, MatProgressSpinnerModule,CourseDetailsComponent],
+  imports: [CommonModule,MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule,CourseDetailsComponent],
 })
-export class MyCoursesComponent implements OnInit, OnDestroy {
+export class MyCoursesComponent implements OnInit {
   myCourses: Course[] = [];
   loadingCourses = true;
   errorCourses: string | null = null;
@@ -30,10 +30,10 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     this.loadMyCourses();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+  // ngOnDestroy(): void {
+  //   this.destroy$.next();
+  //   this.destroy$.complete();
+  // }
   public getStudentId(): number | null {
     if (typeof window !== 'undefined' && window.sessionStorage) {
       const token = sessionStorage.getItem('authToken');
@@ -112,33 +112,33 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
 
 
-  isUserEnrolled(courseId: number): Observable<boolean> {
-    const studentId = this.getStudentId();
-    if (studentId !== null) {
-      return this.courseService.isUserEnrolled(courseId, studentId);
-    } else {
-      return of(false);
-    }
-  }
+  // isUserEnrolled(courseId: number): Observable<boolean> {
+  //   const studentId = this.getStudentId();
+  //   if (studentId !== null) {
+  //     return this.courseService.isUserEnrolled(courseId, studentId);
+  //   } else {
+  //     return of(false);
+  //   }
+  // }
 
-  joinCourse(courseId: number): void {
-    const studentId = this.getStudentId();
-    if (studentId !== null) {
-      this.courseService.enrollInCourse(courseId, studentId)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (response) => {
-            console.log('Successfully enrolled:', response);
-            this.loadMyCourses(); // רענון רשימת הקורסים שלי
-            // ... הצגת הודעה למשתמש
-          },
-          error: (error) => {
-            console.error('Error enrolling:', error);
-            // ... הצגת הודעת שגיאה למשתמש
-          }
-        });
-    }
-  }
+  // joinCourse(courseId: number): void {
+  //   const studentId = this.getStudentId();
+  //   if (studentId !== null) {
+  //     this.courseService.enrollInCourse(courseId, studentId)
+  //       .pipe(takeUntil(this.destroy$))
+  //       .subscribe({
+  //         next: (response) => {
+  //           console.log('Successfully enrolled:', response);
+  //           this.loadMyCourses(); // רענון רשימת הקורסים שלי
+  //           // ... הצגת הודעה למשתמש
+  //         },
+  //         error: (error) => {
+  //           console.error('Error enrolling:', error);
+  //           // ... הצגת הודעת שגיאה למשתמש
+  //         }
+  //       });
+  //   }
+  // }
 
   leaveCourse(courseId: number): void {
     const studentId = this.getStudentId();
