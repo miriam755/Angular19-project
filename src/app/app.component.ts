@@ -4,14 +4,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon'; // ייבוא MatIconModule
 import { CommonModule } from '@angular/common';
-import { CoursesComponent } from './courses/courses.component';
-import { CoursesManagementComponent } from './courses-management/courses-management.component';
+import { CoursesComponent } from './components/courses/courses.component';
+import { CoursesManagementComponent } from './components/courses-management/courses-management.component';
 import { RegisterComponent } from './register/register.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { LoginComponent } from './login/login.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
+import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
-import { MyCoursesComponent } from './my-courses/my-courses.component';
+import { MyCoursesComponent } from './components/my-courses/my-courses.component';
 import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-root',
   imports: [ MatCardModule,

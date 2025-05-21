@@ -12,14 +12,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-course-details',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, AsyncPipe, MatListModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatButtonModule, MatListModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './course-details.component.html',
   styleUrl: './course-details.component.css'
 })
 export class CourseDetailsComponent {
   
   @Input() course: Course | null = null;
-  // @Input() isEnrolled!: Observable<boolean> ;
   @Input() lessons: Lesson[] | null = null;
   @Input() loadingLessons: boolean | null = false;
   @Input() errorLessons: string | null | undefined = '';
