@@ -2,41 +2,36 @@
     <mat-card>
         <mat-card-title>הקורסים שלי</mat-card-title>
         <mat-card-content>
-     
             @if (errorCourses) {
-            <div class="alert alert-danger">{{ errorCourses }}</div>}
-            @if (myCourses && myCourses.length > 0) {
+            <div class="alert alert-danger">{{ errorCourses }}</div>
+            } @if (loadingCourses) {
+            <div>
+                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+                טוען את הקורסים שלך...
+            </div>
+            } @if (myCourses && myCourses.length > 0) {
             <mat-list>
                 @for (course of myCourses; track course.id) {
-                <!-- <mat-list-item> -->
+                <mat-list-item>
                     <mat-icon matListItemIcon>library_books</mat-icon>
                     <h3 matListItemTitle>{{ course.title }}</h3>
-                    <!-- <p matListItemLine>{{ course.description }}</p>
-         -->
-                        <app-course-details
+                    <app-course-details
                         [course]="course"
                         [studentId]="getStudentId()"
-                     
                         (leave)="leaveCourse(course.id)"
                         (loadLessons)="loadCourseLessons(course.id)"
                         [lessons]="courseDisplayStates[course.id]?.lessons ?? null"
                         [loadingLessons]="courseDisplayStates[course.id]?.loadingLessons ?? false"
                         [errorLessons]="courseDisplayStates[course.id]?.errorLessons"
-                        
-                      ></app-course-details>
-                    }
-            </mat-list>}
-            @if (myCourses && myCourses.length === 0 && !loadingCourses && !errorCourses) {
-            <div >
-                עדיין לא נרשמת לקורסים.
-            </div>}
-                   @if (loadingCourses) {
+                    ></app-course-details>
+                </mat-list-item>
+                }
+            </mat-list>
+            } @if (myCourses && myCourses.length === 0 && !loadingCourses && !errorCourses) {
             <div>
-               
-                טוען את הקורסים שלך...
-            </div>}
+                עדיין לא נרשמת לקורסים.
+            </div>
+            }
         </mat-card-content>
     </mat-card>
-
 </div>
-<!-- (join)="joinCourse(course.id)" -->

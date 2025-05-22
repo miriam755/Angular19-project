@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon'; // ייבוא MatIconMod
 import { CommonModule } from '@angular/common';
 import { CoursesComponent } from './components/courses/courses.component';
 import { CoursesManagementComponent } from './components/courses-management/courses-management.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './components/register/register.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';

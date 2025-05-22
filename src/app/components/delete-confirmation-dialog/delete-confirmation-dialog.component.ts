@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { CourseService } from '../services/course.service';
-import { Course } from '../models/course.model';
+import { CourseService } from '../../services/course.service';
+import { Course } from '../../models/course.model';
 import { CourseListComponent } from '../course-list/course-list.component';
 import { CommonModule } from '@angular/common';
 import { CourseFormComponent } from '../course-form/course-form.component';

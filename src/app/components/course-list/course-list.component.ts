@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core'; // הס�
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Course } from '../models/course.model';
+import { Course } from '../../models/course.model';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list'; // שימוש ב-MatListModule
 

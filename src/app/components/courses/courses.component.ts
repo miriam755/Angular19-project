@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { CourseService } from '../services/course.service';
+import { Component, OnInit, Inject } from '@angular/core';
+import { CourseService } from '../../services/course.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Course } from '../models/course.model';
+import { Course } from '../../models/course.model';
 import { Observable, of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CourseDetailsComponent } from '../course-details/course-details.component';
 import { AsyncPipe } from '@angular/common';
-import { Lesson } from '../models/lesson.model ';
+import { Lesson } from '../../models/lesson.model ';
 
 // ייבוא מודולים של Angular Material שבהם נשתמש
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -16,7 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar'; // אם תרצה להציג הודעות
+import { MatSnackBar } from '@angular/material/snack-bar'; // אם תרצה להציג הודעות
 
 interface CourseDisplayState {
   lessons: Lesson[] | null; // מאפשר null
@@ -32,16 +32,14 @@ interface CourseDisplayState {
     FormsModule,
     HttpClientModule,
     CourseDetailsComponent,
-    // הוספת מודולים של Angular Material לייבוא
     MatProgressSpinnerModule,
     MatCardModule,
     MatButtonModule,
     MatListModule,
-    MatIconModule,
-    MatSnackBarModule
+    MatIconModule
   ],
   templateUrl: './courses.component.html',
-  styleUrl: './courses.component.css'
+  styleUrls: ['./courses.component.css']
 })
 export class CoursesComponent implements OnInit {
   courses: Course[] = [];
@@ -50,7 +48,11 @@ export class CoursesComponent implements OnInit {
   courseDisplayStates: { [courseId: number]: CourseDisplayState } = {};
   enrolledCourseIds: number[] = []; // שמור רק את ה-IDs
 
-  constructor(private courseService: CourseService, private router: Router, private snackBar: MatSnackBarModule) { }
+  constructor(
+    @Inject(CourseService) private courseService: CourseService,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.loadCourses();
@@ -95,6 +97,8 @@ export class CoursesComponent implements OnInit {
         this.errorCourses = 'אירעה שגיאה בטעינת הקורסים';
         console.error('שגיאה בטעינת קורסים:', err);
         this.loadingCourses = false;
+        this.snackBar.open('שגיאה בטעינת הקורסים. נסה שוב.', 'סגור', { duration: 5000, panelClass: ['error-snackbar'] });
+
       }
     });
   }
@@ -109,7 +113,9 @@ export class CoursesComponent implements OnInit {
         },
         error: (err) => {
           console.error('שגיאה בהצטרפות לקורס:', err);
+         
           this.errorCourses = 'אירעה שגיאה בהצטרפות לקורס';
+
         }
       });
     }

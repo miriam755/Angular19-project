@@ -6,7 +6,6 @@
   </div>
 
   <app-course-form
-  @if (isAddingNewCourse || selectedCourseId !=null)
     [course]="selectedCourse"
     (formSubmit)="onFormSubmit($event)"
     (formCancel)="onFormCancel()"

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Course } from '../models/course.model';
-import { Lesson } from '../models/lesson.model ';
+import { Course } from '../../models/course.model';
+import { Lesson } from '../../models/lesson.model ';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';

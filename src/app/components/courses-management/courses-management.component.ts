@@ -26,9 +26,9 @@ export class CoursesManagementComponent implements OnInit, OnDestroy {
   isAddingNewCourse: boolean = false;
 
   constructor(
-  @Inject(CourseService) private courseService: CourseService,
-  public dialog: MatDialog
-) {}
+    private courseService: CourseService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadCourses();
