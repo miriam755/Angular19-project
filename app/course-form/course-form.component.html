@@ -1,0 +1,52 @@
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <h2>{{ course ? 'ערוך קורס' : 'הוסף קורס' }}</h2>
+  
+    <div class="form-group">
+      <label for="title">כותרת:</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': titleControl?.invalid && (titleControl?.dirty || titleControl?.touched) }"
+      />
+      <div *ngIf="titleControl?.invalid && (titleControl?.dirty || titleControl?.touched)" class="invalid-feedback">
+        <div *ngIf="titleControl?.errors?.['required']">כותרת היא חובה.</div>
+        <div *ngIf="titleControl?.errors?.['maxlength']">הכותרת לא יכולה להיות ארוכה מ-255 תווים.</div>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="description">תיאור:</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': descriptionControl?.invalid && (descriptionControl?.dirty || descriptionControl?.touched) }"
+      ></textarea>
+      <div *ngIf="descriptionControl?.invalid && (descriptionControl?.dirty || descriptionControl?.touched)" class="invalid-feedback">
+        <div *ngIf="descriptionControl?.errors?.['required']">תיאור הוא חובה.</div>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="teacherId">Teacher ID:</label>
+      <input
+        type="text"
+        id="teacherId"
+        formControlName="teacherId"
+        class="form-control"
+        [ngClass]="{ 'is-invalid': teacherIdControl?.invalid && (teacherIdControl?.dirty || teacherIdControl?.touched) }"
+      />
+      <div *ngIf="teacherIdControl?.invalid && (teacherIdControl?.dirty || teacherIdControl?.touched)" class="invalid-feedback">
+        <div *ngIf="teacherIdControl?.errors?.['required']">Teacher ID is required.</div>
+        <div *ngIf="teacherIdControl?.errors?.['pattern']">Teacher ID must be a number.</div>
+      </div>
+    </div>
+  
+    <button type="submit" class="btn btn-primary" [disabled]="courseForm.invalid">
+      {{ course ? 'שמור שינויים' : 'הוסף קורס' }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">ביטול</button>
+  </form>
+  

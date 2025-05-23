@@ -1,0 +1,46 @@
+<div class="courses-container">
+  <mat-card>
+      <mat-card-title>רשימת הקורסים</mat-card-title>
+      <mat-card-content>
+          <div *ngIf="loadingCourses">
+              <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+              טוען קורסים...
+          </div>
+          <div *ngIf="errorCourses" class="error-message">
+              {{ errorCourses }}
+          </div>
+          <mat-list *ngIf="courses && courses.length > 0">
+              <mat-list-item *ngFor="let course of courses">
+                  <mat-icon matListItemIcon>library_books</mat-icon>
+                  <h3 matListItemTitle>{{ course.title }}</h3>
+                  <p matListItemLine>{{ course.description }}</p>
+                  <div class="actions">
+                      <button mat-raised-button color="primary" (click)="loadCourseDetails(course.id)">
+                          {{ courseDisplayStates[course.id]?.showDetails ? 'הסתר פרטים' : 'הצג פרטים' }}
+                      </button>
+                      <button mat-raised-button color="accent" (click)="loadCourseLessons(course.id)">
+                          {{ courseDisplayStates[course.id]?.showLessons ? 'הסתר שיעורים' : 'הצג שיעורים' }}
+                      </button>
+                      <button mat-raised-button color="secondary" (click)="joinCourse(course.id)" *ngIf="!isUserEnrolled(course.id) | async">
+                          הצטרף לקורס
+                      </button>
+                      <button mat-raised-button color="warn" (click)="leaveCourse(course.id)" *ngIf="isUserEnrolled(course.id) | async">
+                          עזוב קורס
+                      </button>
+                  </div>
+                  <app-course-details
+                      [course]="course"
+                      [showDetails]="courseDisplayStates[course.id]?.showDetails"
+                      [lessons]="courseDisplayStates[course.id]?.lessons"
+                      [showLessons]="courseDisplayStates[course.id]?.showLessons"
+                      [loadingLessons]="courseDisplayStates[course.id]?.loadingLessons"
+                      [errorLessons]="courseDisplayStates[course.id]?.errorLessons"
+                  ></app-course-details>
+              </mat-list-item>
+          </mat-list>
+          <div *ngIf="courses && courses.length === 0 && !loadingCourses && !errorCourses">
+              אין קורסים זמינים כרגע.
+          </div>
+      </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,27 @@
+<div class="button-container">
+    <div class="left-buttons">
+      <button mat-raised-button color="primary" routerLink="/login">
+        <mat-icon>login</mat-icon> כניסה
+      </button>
+      <button mat-raised-button color="accent" routerLink="/register">
+        <mat-icon>person_add</mat-icon> הרשמה
+      </button>
+    </div>
+    <div class="right-buttons">
+      <button mat-raised-button color="secondary" routerLink="/courses">
+        <mat-icon>library_books</mat-icon> קורסים
+      </button>
+      <button mat-raised-button color="secondary" routerLink="/my-courses">
+        <mat-icon>bookmark</mat-icon> הקורסים שלי
+      </button>
+      <button mat-raised-button color="secondary" routerLink="/">
+        <mat-icon>home</mat-icon> דף הבית
+      </button>
+      <button mat-raised-button color="secondary" routerLink="/settings">
+        <mat-icon>settings</mat-icon> הגדרות
+      </button>
+    </div>
+  </div>
+  <div class="content-outlet">
+    <router-outlet></router-outlet>
+  </div>

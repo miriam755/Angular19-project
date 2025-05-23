@@ -1,0 +1,40 @@
+<div class="my-courses-container">
+    <mat-card>
+        <mat-card-title>הקורסים שלי</mat-card-title>
+        <mat-card-content>
+            <div *ngIf="loading">
+                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+                טוען את הקורסים שלך...
+            </div>
+            <div *ngIf="error" class="error-message">
+                {{ error }}
+            </div>
+            <mat-list *ngIf="myCourses && myCourses.length > 0">
+                <mat-list-item *ngFor="let course of myCourses">
+                    <mat-icon matListItemIcon>bookmark</mat-icon>
+                    <h3 matListItemTitle>{{ course.title }}</h3>
+                    <p matListItemLine>{{ course.description }}</p>
+                    <div class="actions">
+                        <button mat-raised-button color="primary" (click)="toggleCourseDetails(course.id)">
+                            {{ courseDisplayStates[course.id]?.showDetails ? 'הסתר פרטים' : 'הצג פרטים' }}
+                        </button>
+                        <button mat-raised-button color="accent" (click)="loadCourseLessons(course.id)">
+                            {{ courseDisplayStates[course.id]?.showLessons ? 'הסתר שיעורים' : 'הצג שיעורים' }}
+                        </button>
+                    </div>
+                    <app-course-details
+                        [course]="course"
+                        [showDetails]="courseDisplayStates[course.id]?.showDetails"
+                        [lessons]="courseDisplayStates[course.id]?.lessons"
+                        [showLessons]="courseDisplayStates[course.id]?.showLessons"
+                        [loadingLessons]="courseDisplayStates[course.id]?.loadingLessons"
+                        [errorLessons]="courseDisplayStates[course.id]?.errorLessons"
+                    ></app-course-details>
+                </mat-list-item>
+            </mat-list>
+            <div *ngIf="myCourses && myCourses.length === 0 && !loading && !error">
+                עדיין לא נרשמת לקורסים.
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

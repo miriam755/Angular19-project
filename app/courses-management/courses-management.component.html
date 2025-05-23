@@ -1,0 +1,25 @@
+<div class="container mt-5">
+    <h1>ניהול קורסים</h1>
+  
+    <div *ngIf="loading" class="alert alert-info">טוען קורסים...</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  
+    <div class="mb-3">
+      <button class="btn btn-primary" (click)="selectedCourseId = 0; selectedCourse = null">הוסף קורס חדש</button>
+    </div>
+  
+    <app-course-list
+      [courses]="courses"
+      (edit)="onEditCourse($event)"
+      (delete)="onDeleteCourse($event)"
+    ></app-course-list>
+  
+    <div *ngIf="selectedCourseId">
+      <app-course-form
+        [course]="selectedCourse"
+        (formSubmit)="onFormSubmit($event)"
+        (formCancel)="onFormCancel()"
+      ></app-course-form>
+    </div>
+  </div>
+  

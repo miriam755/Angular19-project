@@ -1,0 +1,29 @@
+.my-courses-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .mat-card {
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .mat-list-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .mat-list-item:last-child {
+    border-bottom: none;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .mat-progress-spinner {
+    margin: 20px auto;
+  }
