@@ -1,18 +1,4 @@
 <div class="button-container">
-  <div class="left-buttons">
-    @if (!isUserLoggedIn) {
-      <button mat-raised-button color="primary" routerLink="/login">
-        <mat-icon>login</mat-icon> כניסה
-      </button>
-      <button mat-raised-button color="accent" routerLink="/register">
-        <mat-icon>person_add</mat-icon> הרשמה
-      </button>
-    } @else {
-      <button mat-raised-button color="primary" (click)="logOut()">
-        <mat-icon>logout</mat-icon> יציאה
-      </button>
-    }
-  </div>
   <div class="right-buttons">
     <button mat-raised-button color="secondary" routerLink="/courses">
       <mat-icon>library_books</mat-icon> קורסים
@@ -27,6 +13,21 @@
       <mat-icon>settings</mat-icon> הגדרות
     </button>
   </div>
+  <div class="left-buttons">
+    @if (!isUserLoggedIn) {
+      <button mat-raised-button color="primary" routerLink="/login">
+        <mat-icon>login</mat-icon> כניסה
+      </button>
+      <button mat-raised-button color="accent" routerLink="/register">
+        <mat-icon>person_add</mat-icon> הרשמה
+      </button>
+    } @else {
+      <button mat-raised-button color="primary" (click)="logOut()">
+        <mat-icon>logout</mat-icon> יציאה
+      </button>
+    }
+  </div>
+
 </div>
 <div class="content-outlet">
   <router-outlet></router-outlet>

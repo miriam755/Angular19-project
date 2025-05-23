@@ -1,22 +1,36 @@
-<mat-list>
-  @for (course of courses; track course.id) {
-  <mat-list-item class="d-flex justify-content-between align-items-center">
-    <div>
-      <h5 matListItemTitle>{{ course.title }}</h5>
-      <p matListItemLine class="text-muted">{{ course.description }}</p>
-    </div>
-    <div>
-      <button mat-icon-button color="primary" (click)="onEdit(course.id)" matTooltip="ערוך">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button color="warn" (click)="onDelete(course.id, course.title)" matTooltip="מחק">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
-  </mat-list-item>
-  } @empty {
-  <mat-list-item>
-    אין קורסים להצגה כרגע.
-  </mat-list-item>
-  }
-</mat-list>
+<mat-card class="mt-4">
+  <mat-card-title>ניהול קורסים קיימים</mat-card-title>
+  <mat-card-content>
+    @if (courses && courses.length > 0) {
+      <div class="course-cards-container">
+        @for (course of courses; track course.id) {
+          <mat-card class="course-management-card">
+            <mat-card-header>
+              <mat-card-title>{{ course.title }}</mat-card-title>
+              <mat-card-subtitle>{{ course.description }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>מזהה מורה: {{ course.teacherId }}</p>
+            </mat-card-content>
+            <mat-card-actions class="course-actions">
+              <button mat-raised-button color="primary" (click)="onEdit(course.id)">
+                <mat-icon>edit</mat-icon> ערוך קורס
+              </button>
+              <button mat-raised-button color="warn" (click)="onDelete(course.id, course.title)">
+                <mat-icon>delete</mat-icon> מחק קורס
+              </button>
+              <button mat-raised-button color="accent" (click)="onEditLessonsClicked(course.id)">
+                <mat-icon>class</mat-icon> ערוך שיעורים
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+    } @else {
+      <div class="alert alert-info text-center mt-3">
+        אין קורסים קיימים כרגע במערכת.
+      </div>
+    }
+  </mat-card-content>
+</mat-card>
+

@@ -7,6 +7,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { CoursesManagementComponent } from './components/courses-management/courses-management.component';
 import { MyCoursesComponent } from './components/my-courses/my-courses.component';
 import { AppComponent } from './app.component';
+import { LessonsManagementComponent } from './components/lessons-management/lessons-management.component';
 export const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'register', component: RegisterComponent },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'courses/:id', component: CourseDetailsComponent },
   { path: 'my-courses', component: MyCoursesComponent }, // הוספת הנתיב החדש
   {path:'settings',component:CoursesManagementComponent},
-  { path: '**', redirectTo: '' },
- 
+  { path: 'manage-lessons/:courseId', component: LessonsManagementComponent}
+  ,{ path: '**', redirectTo: '' },
+
 ];

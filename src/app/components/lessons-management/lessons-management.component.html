@@ -1,0 +1,93 @@
+<div class="container mt-5">
+    <button mat-raised-button color="accent" (click)="goBackToCoursesManagement()">
+      <mat-icon>arrow_back</mat-icon> חזור לניהול קורסים
+    </button>
+  
+    <h1>ניהול שיעורים עבור קורס: {{ courseTitle }}</h1>
+  
+    @if(loading){
+      <div class="alert alert-info mt-3">טוען שיעורים...</div>
+    }
+    @if(error){
+      <div class="alert alert-danger mt-3">{{ error }}</div>
+    }
+  
+    <hr class="mt-4 mb-4">
+  
+    <mat-card class="mt-4">
+      <mat-card-title>רשימת שיעורים</mat-card-title>
+      <mat-card-content>
+        @if (lessons && lessons.length > 0) {
+          <div class="lesson-cards-container">
+            @for (lesson of lessons; track lesson.id) {
+              <mat-card class="lesson-card">
+                <mat-card-header>
+                  <mat-card-title>{{ lesson.courseId }}. {{ lesson.title }}</mat-card-title>
+                  <mat-card-subtitle>{{ lesson.content }}</mat-card-subtitle>
+                </mat-card-header>
+                <!-- <mat-card-content>
+                  @if (lesson.videoUrl) {
+                    <p>
+                      <mat-icon>videocam</mat-icon> <a [href]="lesson.videoUrl" target="_blank">צפה בשיעור</a>
+                    </p>
+                  }
+                </mat-card-content> -->
+                <mat-card-actions class="lesson-actions">
+                  <button mat-raised-button color="primary" (click)="onEditLesson(lesson)">
+                    <mat-icon>edit</mat-icon> ערוך
+                  </button>
+                  <button mat-raised-button color="warn" (click)="onDeleteLesson(lesson)">
+                    <mat-icon>delete</mat-icon> מחק
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            }
+          </div>
+        } @else {
+          <div class="alert alert-info text-center mt-3">
+            אין שיעורים קיימים לקורס זה.
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  
+    <hr class="mt-4 mb-4">
+  
+    <div class="mb-3 text-center">
+      <button mat-raised-button color="primary" (click)="onAddLesson()">
+        <mat-icon>add</mat-icon> הוסף שיעור חדש
+      </button>
+    </div>
+  
+    @if (isAddingNewLesson || selectedLesson !== null) {
+      <mat-card class="mt-4">
+        <mat-card-title>{{ selectedLesson ? 'ערוך שיעור' : 'הוסף שיעור חדש' }}</mat-card-title>
+        <mat-card-content>
+          <form [formGroup]="lessonForm" (ngSubmit)="onFormSubmit()">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>כותרת השיעור</mat-label>
+              <input matInput formControlName="title" required>
+              @if (lessonForm.get('title')?.invalid && (lessonForm.get('title')?.dirty || lessonForm.get('title')?.touched)) {
+                <mat-error>כותרת היא חובה.</mat-error>
+              }
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>תוכן השיעור</mat-label>
+              <textarea matInput formControlName="content" required></textarea>
+              @if (lessonForm.get('content')?.invalid && (lessonForm.get('content')?.dirty || lessonForm.get('content')?.touched)) {
+                <mat-error>תיאור הוא חובה.</mat-error>
+              }
+            </mat-form-field>
+ 
+            <mat-card-actions class="form-actions">
+              <button mat-raised-button color="primary" type="submit" [disabled]="lessonForm.invalid">
+                {{ selectedLesson ? 'שמור שינויים' : 'הוסף שיעור' }}
+              </button>
+              <button mat-button type="button" (click)="onFormCancel()">בטל</button>
+            </mat-card-actions>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>

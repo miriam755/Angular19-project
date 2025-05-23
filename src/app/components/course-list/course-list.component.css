@@ -1,0 +1,43 @@
+/* ניתן להוסיף סגנונות לקובץ ה-CSS של הקומפוננטה (course-list.component.css) */
+.course-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 300px מינימום רוחב, מתפצל לעמודות */
+  gap: 20px; /* רווח בין הכרטיסים */
+  padding: 20px;
+}
+
+.course-management-card {
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  display: flex; /* לסידור פנימי של הכרטיס */
+  flex-direction: column; /* תוכן הקארד אנכי */
+}
+
+.course-management-card:hover {
+  transform: translateY(-5px);
+}
+
+.course-actions {
+  display: flex;
+  flex-wrap: wrap; /* כדי שהכפתורים ירדו שורה במידת הצורך */
+  gap: 8px; /* רווח בין הכפתורים */
+  padding: 16px;
+  justify-content: flex-end; /* יישור לימין */
+  margin-top: auto; /* דוחף את הכפתורים לתחתית הכרטיס */
+}
+
+/* התאמה אם הכפתורים נראים צפופים מדי ב-mat-card-actions */
+.course-actions button {
+  white-space: nowrap; /* מונע שבירת שורות בתוך הכפתור */
+}
+
+/* עיצוב כללי עבור הודעות */
+.alert-info {
+  background-color: #e0f2f7; /* צבע תכלת בהיר */
+  border: 1px solid #b3e5fc; /* גבול תכלת */
+  padding: 15px;
+  border-radius: 4px;
+  color: #01579b; /* צבע טקסט כחול כהה */
+  text-align: center;
+}

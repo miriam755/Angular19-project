@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-title>{{ course ? 'ערוך קורס' : 'הוסף קורס' }}</mat-card-title>
+  <mat-card-title>{{ course && course.id !== 0 ? 'ערוך קורס' : 'הוסף קורס' }}</mat-card-title>
   <mat-card-content>
     <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline" class="full-width">
@@ -35,12 +35,26 @@
           <div >Teacher ID חייב להיות מספר.</div>}
         </mat-error>}
       </mat-form-field>
+
+      <mat-card-actions class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="courseForm.invalid">
+          {{ course && course.id !== 0 ? 'שמור שינויים' : 'הוסף קורס' }}
+        </button>
+        <button mat-button type="button" (click)="onCancel()">בטל</button>
+      </mat-card-actions>
     </form>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" type="submit" [disabled]="courseForm.invalid">
-      {{ course ? 'שמור שינויים' : 'הוסף קורס' }}
-    </button>
-    <button mat-button type="button" (click)="onCancel()">בטל</button>
-  </mat-card-actions>
 </mat-card>
+
+<style>
+/* CSS בסיסי לעיצוב טופס הקורס, אפשר להעביר לקובץ ה-CSS אם יש לך */
+.full-width {
+  width: 100%;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end; /* יישור לימין */
+  gap: 10px; /* רווח בין הכפתורים */
+  padding: 16px; /* ריווח פנימי */
+}
+</style>
