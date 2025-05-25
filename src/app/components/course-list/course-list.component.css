@@ -1,43 +1,108 @@
-/* ניתן להוסיף סגנונות לקובץ ה-CSS של הקומפוננטה (course-list.component.css) */
+/* src/app/components/course-list/course-list.component.css */
+
+/* הקארד החיצוני שעוטף את כל רשימת הקורסים */
+.courses-list-card {
+    background-color: #ffffff; /* רקע לבן כמו בניהול שיעורים */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* צל עדין */
+    margin-top: 16px; /* מרווח עליון, אם אין Bootstrap mt-4 */
+}
+
+.courses-list-card mat-card-title.list-card-title {
+    font-size: 1.5em; /* גודל כותרת דומה לניהול שיעורים */
+    font-weight: bold;
+    color: #3f51b5; /* Primary color */
+    padding-bottom: 10px; /* מרווח מתחת לכותרת */
+    text-align: center; /* יישור למרכז */
+}
+
+/* קונטיינר הכרטיסים של הקורסים - זהה לניהול שיעורים */
 .course-cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 300px מינימום רוחב, מתפצל לעמודות */
-  gap: 20px; /* רווח בין הכרטיסים */
-  padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* רוחב מינימלי 320px */
+    gap: 20px; /* רווח בין הכרטיסים */
+    padding: 20px;
+    background-color: #ffffff; /* רקע לבן */
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* צל פנימי עדין */
 }
 
-.course-management-card {
-  width: 100%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-  display: flex; /* לסידור פנימי של הכרטיס */
-  flex-direction: column; /* תוכן הקארד אנכי */
+/* עיצוב כללי לכרטיס בודד של קורס - זהה ל-lesson-card */
+.course-card {
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
 }
 
-.course-management-card:hover {
-  transform: translateY(-5px);
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
 }
 
+/* כותרת ותת-כותרת בתוך כרטיס הקורס */
+.course-card mat-card-header {
+    padding-bottom: 0;
+}
+
+.course-card mat-card-title {
+    font-size: 1.2em; /* גודל כותרת הקורס */
+    font-weight: bold;
+    color: #3f51b5;
+}
+
+.course-card mat-card-subtitle {
+    color: #757575;
+}
+
+/* תוכן כרטיס הקורס (כמו ה-teacherId) */
+.course-card mat-card-content {
+    flex-grow: 1; /* מאפשר לתוכן לתפוס מקסימום מקום */
+    padding-top: 8px;
+    color: #424242;
+}
+
+.course-card mat-card-content p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0; /* הסרת מרווח תחתון ב-p */
+}
+
+.course-card mat-card-content mat-icon {
+    margin-inline-end: 5px; /* מרווח ימינה מהאייקון עבור RTL */
+    color: #616161;
+}
+
+/* כפתורי פעולה בתוך כרטיס הקורס - זהה ל-lesson-actions */
 .course-actions {
-  display: flex;
-  flex-wrap: wrap; /* כדי שהכפתורים ירדו שורה במידת הצורך */
-  gap: 8px; /* רווח בין הכפתורים */
-  padding: 16px;
-  justify-content: flex-end; /* יישור לימין */
-  margin-top: auto; /* דוחף את הכפתורים לתחתית הכרטיס */
+    display: flex;
+    justify-content: flex-end; /* יישור לימין */
+    gap: 8px; /* מרווח בין כפתורים */
+    padding: 16px;
+    margin-top: auto; /* דוחף את הכפתורים לתחתית הכרטיס */
+    flex-wrap: wrap; /* כדי שהכפתורים ירדו שורה אם אין מקום */
 }
 
-/* התאמה אם הכפתורים נראים צפופים מדי ב-mat-card-actions */
 .course-actions button {
-  white-space: nowrap; /* מונע שבירת שורות בתוך הכפתור */
+    white-space: nowrap; /* מונע שבירת שורות בתוך הכפתור */
+    padding: 8px 16px; /* התאמה לגודל כפתורים בכרטיסים */
+    font-size: 0.9em; /* גודל פונט קטן יותר לכפתורים */
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* עיצוב כללי עבור הודעות */
+.course-actions button mat-icon {
+    margin-inline-end: 5px; /* מרווח ימינה מהאייקון עבור RTL */
+}
+
+/* הודעות התראה - זהה לניהול שיעורים (עם התאמה ל-RTL) */
 .alert-info {
-  background-color: #e0f2f7; /* צבע תכלת בהיר */
-  border: 1px solid #b3e5fc; /* גבול תכלת */
-  padding: 15px;
-  border-radius: 4px;
-  color: #01579b; /* צבע טקסט כחול כהה */
-  text-align: center;
+    background-color: #e3f2fd;
+    border-right: 5px solid #2196f3; /* ל-RTL */
+    color: #1a237e;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: right; /* יישור לימין עבור RTL */
+    margin-top: 15px;
 }

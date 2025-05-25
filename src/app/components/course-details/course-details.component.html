@@ -1,66 +1,62 @@
 @if (course) {
-  <div class="actions">
-    <button mat-raised-button color="primary" (click)="toggleDetails()">
-      {{ showDetails ? 'הסתר פרטים' : 'פרטי הקורס' }}
-    </button>
-    <button mat-raised-button color="accent" (click)="toggleLessons()">
-      {{ showLessons ? 'הסתר שיעורים' : 'רשימת שיעורים' }}
-    </button>
-    @if (!course.isEnrolled) {
-     
-        <button mat-raised-button color="secondary" (click)="onJoin()">
-          הצטרף לקורס
-        </button>
+<mat-card class="course-details-card">
+  <mat-card-header>
+    <mat-card-title>{{ course.title }}</mat-card-title>
+    <!-- <mat-card-subtitle>{{ course.description }}</mat-card-subtitle> -->
+  </mat-card-header>
+  <mat-card-content>
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="toggleDetails()">
+        {{ showDetails ? 'הסתר פרטים' : 'פרטי הקורס' }}
+      </button>
+      <button mat-raised-button color="accent" (click)="toggleLessons()">
+        {{ showLessons ? 'הסתר שיעורים' : 'רשימת שיעורים' }}
+      </button>
+      @if (!course.isEnrolled) {
+      <button mat-raised-button color="secondary" (click)="onJoin()">
+        הצטרף לקורס
+      </button>
+      } @else {
+      <button mat-raised-button color="warn" (click)="onLeave()">
+        עזוב קורס
+      </button>
       }
-      @else{
-        <button mat-raised-button color="warn" (click)="onLeave()">
-          עזוב קורס
-        </button>
-      }
-    
-  </div>
+    </div>
 
-  @if (showDetails) {
+    @if (showDetails) {
     <div class="details">
       <h4>תיאור הקורס:</h4>
       <p>{{ course.description }}</p>
     </div>
-  }
+    }
 
-  @if (showLessons) {
-    <div class="lessons">
-      <h4>שיעורים בקורס:</h4>
-      @if (loadingLessons) {
-        <div>
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-          טוען שיעורים...
-        </div>
-      }
-
-      @if (lessons && lessons.length > 0) {
-        <mat-list>
-          @for (lesson of lessons; track lesson.id) {
-            <mat-list-item>
-              <mat-icon matListItemIcon>book</mat-icon>
-              <h5 matListItemTitle>{{ lesson.title }}</h5>
-            </mat-list-item>
-          }
-        </mat-list>
-      }
-      @if (lessons && lessons.length === 0 && !loadingLessons) {
-        <div>
-          אין שיעורים בקורס זה כרגע.
-        </div>
-      }
+    @if (showLessons) {
+    <div class="lessons-container">
       @if (errorLessons) {
-        <div class="error-message">
-          {{ errorLessons }}
-        </div>
+      <div class="error-message">
+        {{ errorLessons }}
+      </div>
+      } @else if (lessons && lessons.length > 0) {
+      <h4>שיעורים בקורס:</h4>
+      <mat-list>
+        @for (lesson of lessons; track lesson.id) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>book</mat-icon>
+          <h5 matListItemTitle>{{ lesson.title }}</h5>
+        </mat-list-item>
+        }
+      </mat-list>
+      } @else {
+      <div class="no-lessons-message">
+        אין שיעורים בקורס זה כרגע
+      </div>
       }
     </div>
-  }
+    }
+  </mat-card-content>
+</mat-card>
 } @else {
-  <div>
-    אין מידע על הקורס.
-  </div>
+<div class="no-course-info">
+  אין מידע על הקורס.
+</div>
 }

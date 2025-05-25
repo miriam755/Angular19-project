@@ -8,11 +8,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-course-details',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatListModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatButtonModule, MatListModule, MatIconModule, MatCardModule,MatProgressSpinnerModule],
   templateUrl: './course-details.component.html',
   styleUrl: './course-details.component.css'
 })

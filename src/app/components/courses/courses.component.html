@@ -1,6 +1,6 @@
-<div class="courses-container">
-  <mat-card>
-    <mat-card-title>רשימת הקורסים</mat-card-title>
+<div class="container mt-5">
+ 
+    <h1>רשימת הקורסים</h1>
     <mat-card-content>
       @if(errorCourses){
       <div class="error-message">
@@ -12,7 +12,7 @@
         <!-- <mat-list-item> -->
           <mat-icon matListItemIcon>library_books</mat-icon>
           <h3 matListItemTitle>{{ course.title }}</h3>
-          <p matListItemLine>{{ course.description }}</p>
+          <!-- <p matListItemLine>{{ course.description }}</p> -->
           <app-course-details
             [course]="course"
             [studentId]="getStudentId()"
@@ -36,5 +36,5 @@
         טוען קורסים...
       </div>}
     </mat-card-content>
-  </mat-card>
+  
 </div>

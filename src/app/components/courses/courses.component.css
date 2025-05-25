@@ -1,14 +1,125 @@
-
-
-.courses-container, .my-courses-container {
+.courses-container,
+.my-courses-container {
     display: flex;
+    background-color: #f9f9f9;
     justify-content: center;
     padding: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 
 .mat-card {
     width: 80%;
     max-width: 700px;
+
+
+}
+/* src/app/components/courses-management/courses-management.component.css */
+
+/* העיצוב הכללי של הקונטיינר - זהה לניהול שיעורים */
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* כותרת הדף - זהה לניהול שיעורים */
+h1 {
+    text-align: center;
+    color: #3f51b5; /* Primary color */
+    margin-bottom: 30px;
+}
+
+/* סגנונות עבור ה-mat-card שעוטף את טופס הקורס (אם יש) */
+.course-form-card {
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-form-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+.course-form-card mat-card-title {
+    font-size: 1.5em; /* מעט גדול יותר לכותרת טופס */
+    font-weight: bold;
+    color: #3f51b5;
+    padding: 16px; /* פאדינג לכותרת הקארד */
+    text-align: center;
+}
+
+.course-form-card mat-card-content {
+    padding-top: 8px;
+    color: #424242;
+    padding: 16px; /* פאדינג לתוכן הקארד */
+}
+
+/* כפתור "הוסף קורס חדש" - זהה לכפתורים של ניהול שיעורים */
+.mb-3.text-center button {
+    padding: 12px 24px; /* התאמה לגודל הכפתורים האחרים */
+    font-size: 16px;
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+    min-width: 150px;
+}
+
+.mb-3.text-center button mat-icon {
+    /* כיווניות האייקון - צריך להתאים לכיווניות ה-RTL הכללית */
+    margin-inline-end: 8px; /* מרווח ימינה מהאייקון (ב-RTL זה יהיה מימין) */
+}
+
+
+/* הודעות התראה - זהה לניהול שיעורים (עם התאמה ל-RTL) */
+.alert-info {
+    background-color: #e3f2fd;
+    border-right: 5px solid #2196f3; /* ל-RTL */
+    color: #1a237e;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: right; /* יישור לימין עבור RTL */
+    margin-top: 15px;
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    border-right: 5px solid #f44336; /* ל-RTL */
+    color: #b71c1c;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: right; /* יישור לימין עבור RTL */
+    margin-top: 15px;
+}
+
+/* התאמות ספציפיות אם ה-app-course-form מכיל קלאסים כמו .full-width או .form-actions */
+/* אם ה-app-course-form עצמו מכיל מבנה דומה של שדות ופעולות */
+/* תצטרך לוודא שקלאסים כמו .full-width ו- .form-actions מוגדרים גם ב-course-form.component.css */
+/* או שניתן לדרוס אותם כאן אם אין ברירה, אבל מומלץ להגדיר אותם בקומפוננטה עצמה */
+/*
+.course-form-card .full-width {
+    width: 100%;
+}
+
+.course-form-card .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 16px;
+}
+*/
+
+.mat-mdc-card-title {
+    font-size: 25px;
+    color: #eee;
 }
 
 .mat-list-item {
@@ -40,4 +151,113 @@
 
 .mat-progress-spinner {
     margin: 20px auto;
+}
+
+/* src/app/components/course-list/course-list.component.css */
+
+/* הקארד החיצוני שעוטף את כל רשימת הקורסים */
+.courses-list-card {
+    background-color: #ffffff; /* רקע לבן כמו בניהול שיעורים */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* צל עדין */
+    margin-top: 16px; /* מרווח עליון, אם אין Bootstrap mt-4 */
+}
+
+.courses-list-card mat-card-title.list-card-title {
+    font-size: 1.5em; /* גודל כותרת דומה לניהול שיעורים */
+    font-weight: bold;
+    color: #3f51b5; /* Primary color */
+    padding-bottom: 10px; /* מרווח מתחת לכותרת */
+    text-align: center; /* יישור למרכז */
+}
+
+/* קונטיינר הכרטיסים של הקורסים - זהה לניהול שיעורים */
+.course-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* רוחב מינימלי 320px */
+    gap: 20px; /* רווח בין הכרטיסים */
+    padding: 20px;
+    background-color: #ffffff; /* רקע לבן */
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* צל פנימי עדין */
+}
+
+/* עיצוב כללי לכרטיס בודד של קורס - זהה ל-lesson-card */
+.course-card {
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+/* כותרת ותת-כותרת בתוך כרטיס הקורס */
+.course-card mat-card-header {
+    padding-bottom: 0;
+}
+
+.course-card mat-card-title {
+    font-size: 1.2em; /* גודל כותרת הקורס */
+    font-weight: bold;
+    color: #3f51b5;
+}
+
+.course-card mat-card-subtitle {
+    color: #757575;
+}
+
+/* תוכן כרטיס הקורס (כמו ה-teacherId) */
+.course-card mat-card-content {
+    flex-grow: 1; /* מאפשר לתוכן לתפוס מקסימום מקום */
+    padding-top: 8px;
+    color: #424242;
+}
+
+.course-card mat-card-content p {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0; /* הסרת מרווח תחתון ב-p */
+}
+
+.course-card mat-card-content mat-icon {
+    margin-inline-end: 5px; /* מרווח ימינה מהאייקון עבור RTL */
+    color: #616161;
+}
+
+/* כפתורי פעולה בתוך כרטיס הקורס - זהה ל-lesson-actions */
+.course-actions {
+    display: flex;
+    justify-content: flex-end; /* יישור לימין */
+    gap: 8px; /* מרווח בין כפתורים */
+    padding: 16px;
+    margin-top: auto; /* דוחף את הכפתורים לתחתית הכרטיס */
+    flex-wrap: wrap; /* כדי שהכפתורים ירדו שורה אם אין מקום */
+}
+
+.course-actions button {
+    white-space: nowrap; /* מונע שבירת שורות בתוך הכפתור */
+    padding: 8px 16px; /* התאמה לגודל כפתורים בכרטיסים */
+    font-size: 0.9em; /* גודל פונט קטן יותר לכפתורים */
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.course-actions button mat-icon {
+    margin-inline-end: 5px; /* מרווח ימינה מהאייקון עבור RTL */
+}
+
+/* הודעות התראה - זהה לניהול שיעורים (עם התאמה ל-RTL) */
+.alert-info {
+    background-color: #e3f2fd;
+    border-right: 5px solid #2196f3; /* ל-RTL */
+    color: #1a237e;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: right; /* יישור לימין עבור RTL */
+    margin-top: 15px;
 }

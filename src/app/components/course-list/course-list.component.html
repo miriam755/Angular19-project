@@ -1,16 +1,17 @@
-<mat-card class="mt-4">
-  <mat-card-title>ניהול קורסים קיימים</mat-card-title>
+<mat-card class="courses-list-card"> 
+  <mat-card-title class="list-card-title">ניהול קורסים קיימים</mat-card-title>
   <mat-card-content>
     @if (courses && courses.length > 0) {
       <div class="course-cards-container">
         @for (course of courses; track course.id) {
-          <mat-card class="course-management-card">
-            <mat-card-header>
+          <mat-card class="course-card"> <mat-card-header>
               <mat-card-title>{{ course.title }}</mat-card-title>
               <mat-card-subtitle>{{ course.description }}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <p>מזהה מורה: {{ course.teacherId }}</p>
+              <p>
+                <mat-icon>person</mat-icon> מזהה מורה: {{ course.teacherId }}
+              </p>
             </mat-card-content>
             <mat-card-actions class="course-actions">
               <button mat-raised-button color="primary" (click)="onEdit(course.id)">
@@ -33,4 +34,3 @@
     }
   </mat-card-content>
 </mat-card>
-

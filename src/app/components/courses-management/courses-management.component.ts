@@ -10,12 +10,13 @@ import { CommonModule } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-courses-management',
   templateUrl: './courses-management.component.html',
   styleUrls: ['./courses-management.component.css'],
   standalone: true,
-  imports: [MatDialogModule,MatIconModule, CourseListComponent, CommonModule, CourseFormComponent, MatButtonModule]
+  imports: [MatCardModule,MatDialogModule,MatIconModule, CourseListComponent, CommonModule, CourseFormComponent, MatButtonModule]
 })
 export class CoursesManagementComponent implements OnInit, OnDestroy {
   courses: Course[] = [];
