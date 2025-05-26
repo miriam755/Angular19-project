@@ -15,7 +15,7 @@
 
 .welcome-container.show {
     opacity: 1; /* הופך את האלמנט לגלוי */
-    transform: translateX(-50%) translateY(-50%); /* מזיז את האלמנט למרכז (או קצת שמאלה) */
+    transform: translateX(-300%) translateY(-50%); /* מזיז את האלמנט למרכז (או קצת שמאלה) */
 }
 
 .welcome-container.hide {

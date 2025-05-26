@@ -3,7 +3,7 @@ import { CourseService } from '../../services/course.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Course } from '../../models/course.model';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap, catchError } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CourseDetailsComponent } from '../course-details/course-details.component';
@@ -146,18 +146,37 @@ export class CoursesComponent implements OnInit {
     }
   }
 
-  loadCourseLessons(courseId: number): Observable<Lesson[]> {
+  updateCourseLessons(courseId: number, lessons: Lesson[]): void {
+    const state = this.courseDisplayStates[courseId];
+    if (state) {
+      state.lessons = lessons;
+      state.loadingLessons = false;
+      state.errorLessons = null;
+    }
+  }
+
+  loadCourseLessons(courseId: number): void {
     const state = this.courseDisplayStates[courseId];
     if (!state.lessons && !state.loadingLessons) {
       state.loadingLessons = true;
       state.errorLessons = null;
-      return this.courseService.getLessonsByCourseId(courseId);
-    } else if (state.lessons) {
-      return of(state.lessons);
-    } else {
-      return of([]); // או Observable.empty(), תלוי בהתנהגות הרצויה
+      this.courseService.getLessonsByCourseId(courseId).subscribe({
+        next: (lessons) => {
+          state.lessons = lessons;
+          state.loadingLessons = false;
+        },
+        error: (error) => {
+          state.errorLessons = 'Failed to load lessons';
+          state.loadingLessons = false;
+          console.error('Error loading lessons:', error);
+        }
+      });
     }
   }
+
+
+  
+
   getCoursesByStudentId(studentId: number) {
     this.courseService.getCoursesByStudentId(studentId).subscribe(
       data => data.forEach(f => {

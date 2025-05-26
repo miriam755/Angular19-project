@@ -9,6 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { log } from 'console';
 @Component({
   selector: 'app-course-details',
   standalone: true,
@@ -38,8 +39,23 @@ export class CourseDetailsComponent {
   toggleLessons(): void {
     this.showLessons = !this.showLessons;
     this.showDetails = false; // סגירת פרטים בעת פתיחת רשימת שיעורים
+    console.log('Toggle Lessons:', {
+      showLessons: this.showLessons,
+      hasLessons: this.lessons !== null,
+      loadingLessons: this.loadingLessons,
+      courseId: this.course?.id
+    });
+    
     if (this.showLessons && !this.lessons && !this.loadingLessons) {
+      console.log('Loading lessons...');
       this.loadLessons.emit();
+      console.log('Course ID:', this.course?.id);
+    } else if (this.showLessons && this.lessons) {
+      console.log('Lessons already loaded:', this.lessons.length);
+    } else if (this.loadingLessons) {
+      console.log('Lessons are still loading...');
+    } else {
+      console.log('Lessons not loaded and not loading');
     }
   }
 

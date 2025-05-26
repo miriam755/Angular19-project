@@ -1,4 +1,9 @@
 <div class="container mt-5">
+  <div class="mb-3 text-center">
+    <button mat-raised-button color="primary" (click)="onAddCourse()">
+      <mat-icon>add</mat-icon> הוסף קורס חדש
+    </button>
+  </div>
   <h1>ניהול קורסים</h1>
 
   <app-course-list
@@ -22,11 +27,6 @@
 
   <hr class="mt-4 mb-4">
 
-  <div class="mb-3 text-center">
-    <button mat-raised-button color="primary" (click)="onAddCourse()">
-      <mat-icon>add</mat-icon> הוסף קורס חדש
-    </button>
-  </div>
 
   @if (isAddingNewCourse || selectedCourseId !== null) {
     <mat-card class="mt-4 course-form-card"> <mat-card-title>{{ selectedCourseId ? 'ערוך קורס' : 'הוסף קורס חדש' }}</mat-card-title> <mat-card-content>
