@@ -4,6 +4,22 @@
       <mat-icon>add</mat-icon> הוסף קורס חדש
     </button>
   </div>
+
+  @if (isAddingNewCourse || selectedCourseId !== null) {
+    <hr class="mt-4 mb-4">
+    <mat-card class="mt-4 course-form-card">
+       <mat-card-title>
+        {{ selectedCourseId ? 'ערוך קורס' : 'הוסף קורס חדש' }}
+      </mat-card-title>
+       <mat-card-content>
+        <app-course-form
+          [course]="selectedCourse"
+          (formSubmit)="onFormSubmit($event)"
+          (formCancel)="onFormCancel()"
+        ></app-course-form>
+      </mat-card-content>
+    </mat-card>
+  }
   <h1>ניהול קורסים</h1>
 
   <app-course-list
@@ -25,17 +41,8 @@
     </div>
   }
 
-  <hr class="mt-4 mb-4">
 
 
-  @if (isAddingNewCourse || selectedCourseId !== null) {
-    <mat-card class="mt-4 course-form-card"> <mat-card-title>{{ selectedCourseId ? 'ערוך קורס' : 'הוסף קורס חדש' }}</mat-card-title> <mat-card-content>
-        <app-course-form
-          [course]="selectedCourse"
-          (formSubmit)="onFormSubmit($event)"
-          (formCancel)="onFormCancel()"
-        ></app-course-form>
-      </mat-card-content>
-    </mat-card>
-  }
+
+
 </div>

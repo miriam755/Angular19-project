@@ -35,29 +35,43 @@ export class CourseDetailsComponent {
     this.showDetails = !this.showDetails;
     this.showLessons = false; // סגירת רשימת שיעורים בעת פתיחת פרטים
   }
-
   toggleLessons(): void {
     this.showLessons = !this.showLessons;
-    this.showDetails = false; // סגירת פרטים בעת פתיחת רשימת שיעורים
+    this.showDetails = false;
     console.log('Toggle Lessons:', {
       showLessons: this.showLessons,
-      hasLessons: this.lessons !== null,
+      hasLessons: this.lessons !== null, // זה בודק אם הוא לא null
+      lessonsLength: this.lessons ? this.lessons.length : 'null', // בדוק את האורך בפועל
       loadingLessons: this.loadingLessons,
       courseId: this.course?.id
     });
-    
-    if (this.showLessons && !this.lessons && !this.loadingLessons) {
-      console.log('Loading lessons...');
-      this.loadLessons.emit();
-      console.log('Course ID:', this.course?.id);
-    } else if (this.showLessons && this.lessons) {
-      console.log('Lessons already loaded:', this.lessons.length);
-    } else if (this.loadingLessons) {
+  
+    // *** שינוי קריטי כאן: לשנות את התנאי שיפעיל את ה-loadLessons.emit() ***
+    // עכשיו נבדוק אם showLessons = true, וגם אם השיעורים לא נטענו (lessons הוא null)
+    // או אם הם נטענו אבל הרשימה ריקה (lessons.length === 0)
+    // וגם אם לא נמצאים כבר בטעינה.
+    if (this.showLessons && (!this.lessons || this.lessons.length === 0) && !this.loadingLessons) {
+      console.log('Loading lessons for the first time...');
+      this.loadLessons.emit(); // כאן האירוע ייפלט!
+      console.log('Course ID (for emit):', this.course?.id);
+    }
+    //
+    // הוסף את else if הזה כדי להבחין בין טעינה מוצלחת לטעינה ריקה
+    else if (this.showLessons && this.lessons && this.lessons.length > 0) {
+        console.log('Lessons already loaded (and not empty):', this.lessons.length);
+    } else if (this.showLessons && this.lessons && this.lessons.length === 0) {
+        // המקרה הזה יקרה אם ה-API החזיר מערך ריק, אבל הקומפוננטה חושבת שהיא "סיימה לטעון"
+        console.log('Lessons loaded, but the list is empty (length is 0).');
+    }
+    //
+    else if (this.loadingLessons) {
       console.log('Lessons are still loading...');
     } else {
-      console.log('Lessons not loaded and not loading');
+      // זה המקרה שבו showLessons הוא false (כלומר סגרת את השיעורים)
+      console.log('Lessons not loaded and not loading (or lessons are being hidden).');
     }
   }
+ 
 
   onJoin(): void {
     this.join.emit();
