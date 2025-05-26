@@ -72,10 +72,26 @@ export class CoursesManagementComponent implements OnInit, OnDestroy {
 
   // פונקציה שנשלחת מה-CourseListComponent בלחיצה על "ערוך"
   onEditCourse(courseId: number): void {
-    this.selectedCourseId = courseId; // הגדרת הקורס הנבחר לפי ID
-    this.selectedCourse = this.courses.find((c) => c.id === courseId) || null; // מציאת אובייקט הקורס
-    this.isAddingNewCourse = false; // לוודא שאנחנו לא במצב הוספה
+    this.isAddingNewCourse = false; // וודא שחלונית ההוספה ב-inline סגורה
+    const courseToEdit = this.courses.find((c) => c.id === courseId);
+
+    if (courseToEdit) {
+      const dialogRef = this.dialog.open(CourseFormComponent, {
+        width: '500px', // גודל הדיאלוג
+        // העבר את אובייקט הקורס לטופס דרך אובייקט ה-data של הדיאלוג
+        data: { course: { ...courseToEdit } } // שימוש ב-spread operator ליצירת עותק נקי
+      });
+
+      dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
+        // ה-result יהיה אובייקט ה-Course המעודכן אם המשתמש לחץ 'שמור', או undefined אם לחץ 'ביטול'
+        if (result) {
+          this.onFormSubmit(result); // השתמש בפונקציה הקיימת לטיפול בשליחת הטופס (שתבדיל בין הוספה לעריכה)
+        }
+        // אין צורך ב-onFormCancel כאן, כי הדיאלוג נסגר והמצב כבר טופל
+      });
+    }
   }
+
 
   // פונקציה שנשלחת מה-CourseListComponent בלחיצה על "מחק"
   onDeleteCourse(event: { courseId: number; title: string }): void {

@@ -1,60 +1,32 @@
-<mat-card>
-  <mat-card-title>{{ course && course.id !== 0 ? 'ערוך קורס' : 'הוסף קורס' }}</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>כותרת</mat-label>
-        <input matInput placeholder="הכנס כותרת" formControlName="title" required>
-        @if (titleControl?.invalid && (titleControl?.dirty || titleControl?.touched)) {
-        <mat-error>
-          @if (titleControl?.errors?.['required']) {
-          <div>כותרת היא חובה.</div>}
-          @if (titleControl?.errors?.['maxlength']) {
-          <div>הכותרת לא יכולה להיות ארוכה מ-255 תווים.</div>}
-        </mat-error>}
-      </mat-form-field>
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>שם הקורס</mat-label>
+    <input matInput formControlName="title" required>
+    @if (courseForm.get('title')?.invalid && (courseForm.get('title')?.dirty || courseForm.get('title')?.touched)) {
+      <mat-error>שם הקורס הוא שדה חובה.</mat-error>
+    }
+  </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>תיאור</mat-label>
-        <textarea matInput placeholder="הכנס תיאור" formControlName="description" required></textarea>
-        @if (descriptionControl?.invalid && (descriptionControl?.dirty || descriptionControl?.touched)) {
-        <mat-error>
-          @if (descriptionControl?.errors?.['required']) {
-          <div>תיאור הוא חובה.</div>}
-        </mat-error>}
-      </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>תיאור הקורס</mat-label>
+    <textarea matInput formControlName="description" required></textarea>
+    @if (courseForm.get('description')?.invalid && (courseForm.get('description')?.dirty || courseForm.get('description')?.touched)) {
+      <mat-error>תיאור הקורס הוא שדה חובה.</mat-error>
+    }
+  </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Teacher ID</mat-label>
-        <input matInput placeholder="הכנס Teacher ID" formControlName="teacherId" required pattern="^[0-9]+$">
-        @if (teacherIdControl?.invalid && (teacherIdControl?.dirty || teacherIdControl?.touched)) {
-        <mat-error>
-          @if (teacherIdControl?.errors?.['required']) {
-          <div >Teacher ID הוא חובה.</div>}
-          @if (teacherIdControl?.errors?.['pattern']) {
-          <div >Teacher ID חייב להיות מספר.</div>}
-        </mat-error>}
-      </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>מזהה מורה</mat-label>
+    <input matInput type="number" formControlName="teacherId" required>
+    @if (courseForm.get('teacherId')?.invalid && (courseForm.get('teacherId')?.dirty || courseForm.get('teacherId')?.touched)) {
+      <mat-error>מזהה מורה הוא שדה חובה ומספר חיובי.</mat-error>
+    }
+  </mat-form-field>
 
-      <mat-card-actions class="form-actions">
-        <button mat-raised-button color="primary" type="submit" [disabled]="courseForm.invalid">
-          {{ course && course.id !== 0 ? 'שמור שינויים' : 'הוסף קורס' }}
-        </button>
-        <button mat-button type="button" (click)="onCancel()">בטל</button>
-      </mat-card-actions>
-    </form>
-  </mat-card-content>
-</mat-card>
-
-<style>
-/* CSS בסיסי לעיצוב טופס הקורס, אפשר להעביר לקובץ ה-CSS אם יש לך */
-.full-width {
-  width: 100%;
-}
-.form-actions {
-  display: flex;
-  justify-content: flex-end; /* יישור לימין */
-  gap: 10px; /* רווח בין הכפתורים */
-  padding: 16px; /* ריווח פנימי */
-}
-</style>
+  <div class="form-actions-buttons">
+    <button mat-button type="button" (click)="onCancel()">ביטול</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="courseForm.invalid">
+      {{ isDialogMode() ? (data!.course.id ? 'שמור שינויים' : 'הוסף קורס') : (course?.id ? 'שמור שינויים' : 'הוסף קורס') }}
+    </button>
+  </div>
+</form>

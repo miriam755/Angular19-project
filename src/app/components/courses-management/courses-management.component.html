@@ -5,11 +5,11 @@
     </button>
   </div>
 
-  @if (isAddingNewCourse || selectedCourseId !== null) {
+  @if (isAddingNewCourse ) {
     <hr class="mt-4 mb-4">
     <mat-card class="mt-4 course-form-card">
        <mat-card-title>
-        {{ selectedCourseId ? 'ערוך קורס' : 'הוסף קורס חדש' }}
+        'הוסף קורס חדש' 
       </mat-card-title>
        <mat-card-content>
         <app-course-form
