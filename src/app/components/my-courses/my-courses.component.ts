@@ -249,6 +249,7 @@ export class MyCoursesComponent implements OnInit {
       this.courseDisplayStates[courseId].loadingLessons = true;
       this.courseService.getLessonsByCourseId(courseId).subscribe({
         next: (lessons) => {
+          
           this.courseDisplayStates[courseId].lessons = lessons;
           this.courseDisplayStates[courseId].loadingLessons = false;
         },

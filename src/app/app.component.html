@@ -9,9 +9,12 @@
     <button mat-raised-button color="secondary" routerLink="/">
       <mat-icon>home</mat-icon> דף הבית
     </button>
-    <button mat-raised-button color="secondary" routerLink="/settings">
-      <mat-icon>settings</mat-icon> הגדרות
-    </button>
+    
+    @if (isTeacherUser$ | async) {
+      <button mat-raised-button color="secondary" routerLink="/settings">
+        <mat-icon>settings</mat-icon> הגדרות
+      </button>
+    }
   </div>
   <div class="left-buttons">
     @if (!isUserLoggedIn) {
@@ -27,7 +30,6 @@
       </button>
     }
   </div>
-
 </div>
 <div class="content-outlet">
   <router-outlet></router-outlet>

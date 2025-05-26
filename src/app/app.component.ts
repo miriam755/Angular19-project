@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet,RouterLink } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core'; // הוסף OnDestroy
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon'; // ייבוא MatIconModule
+import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { CoursesComponent } from './components/courses/courses.component';
 import { CoursesManagementComponent } from './components/courses-management/courses-management.component';
@@ -10,29 +10,41 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
-import { MyCoursesComponent } from './components/my-courses/my-courses.component';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs'; // הוסף Observable לכאן
+import { map } from 'rxjs/operators'; // הוסף map לכאן
 
 @Component({
   selector: 'app-root',
-  imports: [ MatCardModule,
+  standalone: true, // וודא ש-standalone: true מוגדר כאן אם אתה משתמש ב-Angular 17+
+  imports: [
+    MatCardModule,
     RouterLink,
     MatButtonModule,
     CommonModule,
     MatIconModule,
-    RouterOutlet],
+    RouterOutlet
+    // אין צורך לייבא קומפוננטות ראוט בתוך ה-imports של ה-App
+    // CoursesComponent, CoursesManagementComponent, RegisterComponent,
+    // HomePageComponent, LoginComponent, MyCoursesComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy { // וודא ש-OnDestroy מיושם
   title = 'Project';
-  isUserLoggedIn: boolean = false; // משתנה המציין האם המשתמש מחובר
-  loggedInSubscription: Subscription | undefined; // משתנה שיכיל את ההרשמה ל-Observable של מצב הלוגין
+  isUserLoggedIn: boolean = false;
+  loggedInSubscription: Subscription | undefined;
 
-  // הזרקת תלויות: Router לניווט ו-AuthService לניהול מצב האותנטיקציה
-  constructor(private router: Router, private authService: AuthService) {}
+  // *** חדש: Observable שיגיד לנו אם המשתמש הוא מורה ***
+  isTeacherUser$: Observable<boolean>;
 
-  // מתודה שנקראת לאחר יצירת הקומפוננטה
+  constructor(private router: Router, private authService: AuthService) {
+    // בבנאי, אתחל את ה-Observable. הוא יתחיל להאזין ברגע שהקומפוננטה תיבנה.
+    this.isTeacherUser$ = this.authService.userRole$.pipe(
+      map(role => role === 'teacher') // ממפים את התפקיד ל-true אם הוא 'teacher', אחרת false
+    );
+  }
+
   ngOnInit(): void {
     // קוראים לשירות כדי לבדוק את מצב הלוגין הנוכחי בעת טעינת האפליקציה
     this.isUserLoggedIn = this.authService.isLoggedIn();
@@ -44,20 +56,16 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // מתודה שנקראת לפני שהקומפוננטה נהרסת
   ngOnDestroy(): void {
     // חשוב לבטל את ההרשמה ל-Observable כדי למנוע דליפות זיכרון
     if (this.loggedInSubscription) {
       this.loggedInSubscription.unsubscribe();
     }
+    // אין צורך לבטל הרשמה ל-isTeacherUser$ מכיוון שאנו משתמשים ב-async pipe ב-HTML
+    // והוא מטפל ב-unsubscribe אוטומטית.
   }
 
-  // מתודה לביצוע לוגאוט
   logOut(): void {
-    this.authService.logout(); // קוראים למתודת הלוגאוט בשירות
-    // השירות כבר מטפל בהסרת הטוקן ועדכון ה-Observable,
-    // כך שה-AppComponent יקבל את השינוי דרך ה-subscribe
-    // אין צורך לבצע כאן עדכון ידני של isUserLoggedIn או ניווט,
-    // כי השירות עושה זאת. הסרתי את window.location.reload() כי זה פחות רצוי.
+    this.authService.logout();
   }
 }

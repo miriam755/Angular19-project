@@ -9,7 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service'; // ייבוא השירות
+import { AuthService } from '../../services/auth.service';
+
 @Component({
     selector: 'app-login',
     standalone: true,
@@ -30,14 +31,14 @@ import { AuthService } from '../../services/auth.service'; // ייבוא השי�
 export class LoginComponent implements OnInit {
     userForm: FormGroup;
     errorMessage: string = '';
-    loginSuccess: boolean = false; // דגל להצגת הודעת הצלחה
-    loggedInUserName: string = ''; // לאחסון שם המשתמש המחובר
+    loginSuccess: boolean = false;
+    loggedInUserName: string = '';
 
     constructor(
         private fb: FormBuilder,
         private UserService: UserService,
         private router: Router,
-        private authService: AuthService // הזרקת השירות
+        private authService: AuthService
     ) {
         this.userForm = this.fb.group({
             email: ['', [Validators.required, Validators.email]],
@@ -52,16 +53,24 @@ export class LoginComponent implements OnInit {
             this.UserService.login(this.userForm.value).subscribe({
                 next: (response: any) => {
                     const token = response.token;
-                    if (token) {
-                        console.log(token);
-                        sessionStorage.setItem('authToken', token);
-                        this.authService.login(token); // השתמש בשירות ללוגין
-                        this.loginSuccess = true; // עדכון הדגל להצגת הודעת הצלחה
-                    //    this.loggedInUserName = response.email.split('@')[0]; // נסה לקבל את השם, אחרת השתמש בחלק הראשון של האימייל
-                        this.errorMessage = ''; // איפוס הודעת שגיאה
-                        // הניווט לקורסים יתרחש לאחר שהמשתמש ילחץ על כפתור "המשך לקורסים"
+                    // *** שינוי כאן: קבלת התפקיד מהתגובה של השרת ***
+                    const role = response.role; // וודא שהשרת שולח את השדה 'role'
+
+                    if (token && role) { // וודא שגם הטוקן וגם התפקיד קיימים
+                        console.log('Token:', token);
+                        console.log('Role:', role);
+
+                        // אין צורך לשמור את הטוקן ישירות ב-sessionStorage כאן,
+                        // כי ה-AuthService יעשה זאת עבורך.
+                        // sessionStorage.setItem('authToken', token);
+
+                        // *** השינוי המרכזי: שליחת הטוקן והתפקיד ל-AuthService ***
+                        this.authService.login(token, role); // שלח את ה-token ואת ה-role
+
+                        this.loginSuccess = true;
+                        this.errorMessage = '';
                     } else {
-                        this.errorMessage = 'התגובה מהשרת לא הכילה טוקן.';
+                        this.errorMessage = 'התגובה מהשרת לא הכילה טוקן או תפקיד.';
                         this.loginSuccess = false;
                         this.loggedInUserName = '';
                     }
@@ -81,8 +90,4 @@ export class LoginComponent implements OnInit {
             this.loggedInUserName = '';
         }
     }
-
-    // navigateToCourses(): void {
-    //     this.router.navigate(['/courses']);
-    // }
 }
